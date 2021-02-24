@@ -57,7 +57,7 @@
   background-color: #fff;
   color: #081b30;
 }
-@media only screen and (max-width: 950px) {
+@media only screen and (max-width: 1100px) {
   .product {
     flex-direction: column;
   }
