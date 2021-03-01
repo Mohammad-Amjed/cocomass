@@ -1,0 +1,41 @@
+.basketItem {
+  margin-top: 30px;
+  border: 1px solid #f3f3f3;
+  max-height: 150px;
+  display: flex;
+}
+.basketItem__info {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding: 20px;
+  flex-grow: 1;
+}
+.basketItem__info__price {
+  margin-top: 20px;
+  font-size: 1.2rem;
+}
+.basketItem__info__title__price__right {
+  color: #bbaa7f;
+  cursor: pointer;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+  cursor: pointer;
+}
+.basketItem__info__title__price__right .number {
+  color: #000;
+  cursor: text;
+}
+
+.basketItem__image img {
+  max-height: 150px;
+}
+
+.basketItem__info__title__price {
+  padding-top: 10px;
+  display: flex;
+}
+.basketItem__info__title__price__right span {
+  padding-left: 5px;
+}

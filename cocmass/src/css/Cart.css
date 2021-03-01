@@ -1,0 +1,20 @@
+.cart {
+  display: flex;
+  margin-top: 105px;
+}
+.cart__items {
+  margin-left: 5rem;
+  margin-right: 5rem;
+  flex: 0.6;
+  font-family: "Yantramanav", sans-serif;
+  font-weight: 300;
+}
+.cart__items__title {
+  padding-top: 20px;
+  padding-bottom: 54px;
+}
+.cart__total {
+  flex: 0.4;
+  font-family: "Lato", sans-serif;
+  font-weight: 300;
+}
