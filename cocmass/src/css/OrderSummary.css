@@ -1,0 +1,52 @@
+::-webkit-input-placeholder {
+  /* Edge */
+
+  font-size: 1.2rem;
+  color: #e5e5e5;
+}
+
+:-ms-input-placeholder {
+  /* Internet Explorer */
+
+  font-size: 1.2rem;
+  color: #e5e5e5;
+}
+
+::placeholder {
+  font-size: 1.2rem;
+  color: #e5e5e5;
+}
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+}
+.orderSummary {
+  border: 1px solid #e5e5e5;
+  background-color: #fafafa;
+  margin-right: 50px;
+  padding: 15px;
+}
+.orderSummary__cupon {
+  padding: 20px 0 10px 0;
+}
+.orderSummary__cupon form input {
+  padding: 15px 0;
+  border: 1px solid #e5e5e5;
+  width: calc(100% - 4px);
+  text-indent: 20px;
+  font-size: 1.2rem;
+}
+.orderSummary__cupon form input:hover {
+  border: 1px solid #e5e5e5;
+}
+.orderSummary__cupon form button {
+  font-size: 1.2rem;
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+  padding: 5px 0;
+  background-color: transparent;
+  border: 1px solid #e5e5e5;
+}

@@ -1,6 +1,7 @@
 import React from 'react'
 import "../css/Cart.css"
 import BasketItem from './BasketItem'
+import OrderSummary from './OrderSummary'
 
 function Cart() {
     return (
@@ -14,7 +15,9 @@ function Cart() {
                     <BasketItem />
                 </div>
             </div>
-            <div className="cart__total"><h3>Basket Total</h3></div>
+            <div className="cart__total">
+               <OrderSummary />
+            </div>
         </div>
     )
 }
