@@ -13,6 +13,8 @@ function Cart() {
                 <div className="cart__items__item">
                     <BasketItem />
                     <BasketItem />
+                    <BasketItem />
+                    <BasketItem />
                 </div>
             </div>
             <div className="cart__total">

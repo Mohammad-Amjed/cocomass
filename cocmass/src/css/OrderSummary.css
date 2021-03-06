@@ -21,11 +21,15 @@ textarea:focus,
 select:focus {
   outline: none;
 }
+a {
+  text-decoration: none;
+}
 .orderSummary {
   border: 1px solid #e5e5e5;
   background-color: #fafafa;
   margin-right: 50px;
   padding: 15px;
+  margin-top: 25px;
 }
 .orderSummary__cupon {
   padding: 20px 0 10px 0;
@@ -37,8 +41,8 @@ select:focus {
   text-indent: 20px;
   font-size: 1.2rem;
 }
-.orderSummary__cupon form input:hover {
-  border: 1px solid #e5e5e5;
+.orderSummary__cupon form button:hover {
+  border: 1px solid #000;
 }
 .orderSummary__cupon form button {
   font-size: 1.2rem;
@@ -49,4 +53,36 @@ select:focus {
   padding: 5px 0;
   background-color: transparent;
   border: 1px solid #e5e5e5;
+}
+.OrderSummary__subtotal__subtotal {
+  display: flex;
+  justify-content: space-between;
+}
+.OrderSummary__subtotal__shipping {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.OrderSummary__Total {
+  border-top: 1px solid #e5e5e5;
+  padding: 20px 0;
+  display: flex;
+  justify-content: space-between;
+}
+.OrderSummary__Total h3 {
+  display: inline;
+}
+.basket__button {
+  background-color: #bbaa7f;
+  margin-right: 50px;
+  margin-top: 20px;
+  padding: 10px 25px;
+  text-align: center;
+}
+.basket__button a {
+  color: #fff;
+}
+.basket__button:hover {
+  background-color: rgba(187, 170, 127, 0.8);
 }
