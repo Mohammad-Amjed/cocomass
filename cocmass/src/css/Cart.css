@@ -9,6 +9,7 @@
   font-family: "Yantramanav", sans-serif;
   font-weight: 300;
 }
+
 .cart__items__title {
   padding-top: 20px;
   padding-bottom: 20px;
@@ -17,4 +18,18 @@
   flex: 0.4;
   font-family: "Lato", sans-serif;
   font-weight: 300;
+}
+.cart__items__continueShopping {
+  margin-right: 50px;
+  margin-top: 20px;
+  padding: 10px 25px;
+  text-align: center;
+  width: 48%;
+  border: 1px solid #aaa;
+}
+.cart__items__continueShopping:hover {
+  border: 1px solid #282828;
+}
+.cart__items__continueShopping a {
+  color: #282828;
 }

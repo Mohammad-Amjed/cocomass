@@ -1,0 +1,15 @@
+.checkout {
+  display: flex;
+  margin-top: 105px;
+}
+.checkout__address {
+  flex: 60%;
+  margin-left: 5rem;
+  margin-right: 5rem;
+}
+.checkout__address__title {
+  color: #bbaa7f;
+}
+.checkout__placeOrder {
+  flex: 40%;
+}

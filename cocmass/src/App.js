@@ -5,6 +5,7 @@ import {BrowserRouter as Router , Route} from "react-router-dom"
 import Product from './components/Product'
 import ProductDetails from './components/ProductDetails'
 import Cart from './components/Cart'
+import Checkout from './components/Checkout'
 
 function App() {
   return (
@@ -17,6 +18,9 @@ function App() {
        </Route>
        <Route path="/cart">
          <Cart />
+       </Route>
+       <Route path="/checkout">
+         <Checkout />
        </Route>
     </Router>
   )
