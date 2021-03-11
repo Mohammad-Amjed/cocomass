@@ -1,0 +1,40 @@
+.order {
+  margin-top: 100px;
+}
+.orderDetails {
+  border: 1px solid #e5e5e5;
+  background-color: #fafafa;
+  margin-right: 50px;
+  padding-top: 15px;
+  margin-top: 25px;
+  /* border-top: none; */
+}
+.orderDetails__detail {
+  padding: 15px 15px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #e5e5e5;
+}
+.text {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+.price {
+  margin-top: 2px;
+  font-size: 1.2rem;
+  font-weight: normal;
+}
+.payingMethod {
+  margin-right: 50px;
+  margin-top: 20px;
+  padding: 10px 25px;
+  text-align: center;
+  border: 1px solid #dedede;
+}
+.basket__button {
+  background-color: #bbaa7f;
+  margin-right: 50px;
+  margin-top: 20px;
+  padding: 10px 25px;
+  text-align: center;
+}
