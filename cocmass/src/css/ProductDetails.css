@@ -95,3 +95,12 @@
     width: 90% !important;
   }
 }
+@media only screen and (max-width: 550px) {
+  .productDetails__right {
+    margin-left: 50px;
+  }
+  .productDetails__right__info p {
+    padding-right: 50px;
+    text-align: justify;
+  }
+}

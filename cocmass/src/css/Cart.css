@@ -33,3 +33,33 @@
 .cart__items__continueShopping a {
   color: #282828;
 }
+@media only screen and (max-width: 975px) {
+  .cart {
+    flex-direction: column;
+  }
+  .cart__items {
+    margin: 0;
+    width: 100%;
+  }
+
+  .cart__items__continueShopping {
+    margin-left: auto;
+    margin-right: auto;
+    width: 99%;
+    padding: 10px 0;
+  }
+
+  .orderSummary {
+    width: calc(100% - 35px);
+    padding-bottom: 60px !important;
+  }
+
+  .basket__button {
+    position: fixed;
+    bottom: 0px;
+    width: calc(100% - 70px);
+    box-shadow: rgb(0 0 0 / 5%) 0px -2px 4px;
+    border: 10px solid rgb(255, 255, 255);
+    border-radius: 20px;
+  }
+}

@@ -1,6 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import "../css/OrderDetails.css"
+import BasketItem from './BasketItem'
+import OrderItem from './OrderItem'
 
 function OrderDetails() {
     return (
@@ -21,12 +23,13 @@ function OrderDetails() {
         </div>
         <div>
         <div className="payingMethod">
-            <p to="/checkout">Paying method: Cash of delivery</p>
+            <p to="/checkout">Payment method: Cash on delivery</p>
         </div>
         <div className="basket__button">
-            <Link to="/checkout"> Proceed to checkout</Link>
+            <Link to="/checkout"> Place Order</Link>
         </div>
         </div>
+  
         </div>
         
     )

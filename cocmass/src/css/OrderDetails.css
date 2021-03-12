@@ -38,3 +38,16 @@
   padding: 10px 25px;
   text-align: center;
 }
+@media only screen and (max-width: 970px) {
+  .order {
+    margin-bottom: 90px;
+  }
+  .orderDetails {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .payingMethod {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

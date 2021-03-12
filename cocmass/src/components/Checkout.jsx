@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import "../css/Checkout.css"
 import OrderDetails from './OrderDetails'
+import OrderItem from './OrderItem'
 
 
 function Checkout() {
@@ -62,9 +63,14 @@ function Checkout() {
                     </span>
                     </div>
                 </div>
+                <div className="yourOrder">
+                <h3>Your Order</h3>
+                    <OrderItem />
+                    <OrderItem />
+                </div>
             </div>
             <div className="checkout__placeOrder">
-                <OrderDetails />
+                 <OrderDetails />
             </div>
         </div>
     )

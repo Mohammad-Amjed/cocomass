@@ -1,0 +1,48 @@
+.orderItem {
+  margin-top: 10px;
+  border: 1px solid #f3f3f3;
+  height: 100px;
+  display: flex;
+  margin-right: 50px;
+  margin-bottom: 10px;
+}
+.orderItem__info {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding: 0 5px;
+  flex-grow: 1;
+}
+.orderItem__info__price {
+  margin-top: 20px;
+  font-size: 1.2rem;
+}
+.orderItem__info__title__price__right {
+  color: #bbaa7f;
+  cursor: pointer;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+  cursor: pointer;
+}
+.orderItem__info__title__price__right .number {
+  color: #000;
+  cursor: text;
+}
+
+.orderItem__image img {
+  height: 100px;
+}
+
+.orderItem__info__title__price {
+  padding-top: 10px;
+  display: flex;
+}
+.orderItem__info__title__price__right span {
+  padding-left: 5px;
+}
+@media only screen and (max-width: 475px) {
+  .orderItem {
+    margin-right: 1rem;
+  }
+}

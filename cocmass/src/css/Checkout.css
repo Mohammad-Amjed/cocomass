@@ -51,3 +51,26 @@
   font-size: 1.2rem;
   width: 95%;
 }
+.yourOrder {
+  width: 100%;
+  padding: 0;
+  margin-top: 20px;
+}
+.yourOrder h3 {
+  margin-top: 10px;
+}
+
+@media only screen and (max-width: 970px) {
+  .checkout {
+    flex-direction: column;
+  }
+  .checkout__address {
+    margin-left: 2rem;
+  }
+}
+
+@media only screen and (max-width: 475px) {
+  .checkout__address {
+    margin-left: 1rem;
+  }
+}
