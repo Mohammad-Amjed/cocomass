@@ -1,8 +1,29 @@
 import React, { useState } from 'react'
+import { useStateValue } from '../backend/Stateprovider';
 import "../css/ProductDetails.css"
+import { useHistory, Link } from "react-router-dom";
 
-function ProductDetails() {
+function ProductDetails({id, title, image, rating, price, route}) {
     const [quantity, setQuantity] = useState(1)
+    const [{ basket }, dispatch] = useStateValue();
+    const history = useHistory();
+
+    const addToBasket = ()=> {
+        console.log({id, title, image, rating, price, route})
+        dispatch({
+            type: "ADD_TO_BASKET",
+            item: {
+              id: "id",
+              title: "title",
+              price: "price",
+              image: "image",
+              rating: "rating",
+            },
+           
+          }); 
+          history.push("./cart");
+    }
+    console.log(basket)
     return (
         <div className="productDetails">
             <div className="productDetails__left"><img className="product__left__image" src="https://bramleyandgage.s3.eu-west-1.amazonaws.com/wp-content/uploads/2019/10/21075042/Brunel.png" alt="A render of the Brunel Edition"  /></div>
@@ -33,7 +54,7 @@ function ProductDetails() {
                         </div>
                     </div>
                     <div className="productDetails__right__checkout__button">
-                        <button className="addToBasket">add to basket</button>
+                        <button className="addToBasket" onClick={addToBasket}>add to basket</button>
                     </div>
                 </div>
             </div>

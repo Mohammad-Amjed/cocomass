@@ -1,10 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { useStateValue } from '../backend/Stateprovider'
 import "../css/Cart.css"
 import BasketItem from './BasketItem'
 import OrderSummary from './OrderSummary'
 
 function Cart() {
+    const [{ basket }, dispatch] = useStateValue();
+    console.log(basket)
     return (
         <div className="cart">
             <div className="cart__items">

@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import "../css/Product.css"
 
 function Product() {
@@ -13,7 +14,7 @@ function Product() {
                     <p>With a 50% ABV, this is the ‘export strength’ expression of our multi-award-winning, strikingly smooth London Dry Gin.</p>
                     <p>A giant of a gin!Exquisitely engineered for a more complex flavour profile, we’ve added extra juniper and introduced six new botanicals – green cardamom, nutmeg, cumin, cassia bark, cubeb pepper and lemon – for a bolder, richer flavour; an earthy sweetness combines  with citrus freshness for a dry spicy finish</p>
                     <div className="product__callToAction">
-                         <a href="/">Buy Now</a>
+                         <Link to="/product-details">Buy Now</Link>
                     </div>
                 </div>
         
