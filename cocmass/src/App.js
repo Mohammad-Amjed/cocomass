@@ -30,7 +30,7 @@ function App() {
        </Route>
        {  snapshots && snapshots.map((doc)=>(
         <Route path={doc.data().path}>
-          <ProductDetails image={doc.data().image}  title={doc.data().title} body1={doc.data().body1} body2={doc.data().body2} price={doc.data().price} />
+          <ProductDetails image={doc.data().image}  title={doc.data().title} body1={doc.data().body1} body2={doc.data().body2} price={doc.data().price} id={doc.data().id} />
          </Route>      
                   ))}  
 

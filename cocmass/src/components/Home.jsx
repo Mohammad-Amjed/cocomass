@@ -17,7 +17,7 @@ function Home() {
     return (
         <div>
                 {  snapshots && snapshots.map((doc)=>(
-        <Product path={doc.data().path} image={doc.data().image} body1={doc.data().body1} body2={doc.data().body2} title={doc.data().title}/>     
+        <Product path={doc.data().path} image={doc.data().image} body1={doc.data().body1} body2={doc.data().body2} title={doc.data().title} id={doc.data().id}/>     
                   ))}  
         </div>
     )

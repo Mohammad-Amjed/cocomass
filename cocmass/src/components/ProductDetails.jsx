@@ -2,11 +2,95 @@ import React, { useState } from 'react'
 // import { useStateValue } from '../backend/Stateprovider';
 import "../css/ProductDetails.css"
 import { useHistory, Link } from "react-router-dom";
+import { db } from '../backend/firebase';
 
 function ProductDetails({id, title, image, body1,body2, price}) {
     const [quantity, setQuantity] = useState(1)
-    // const [{ basket }, dispatch] = useStateValue();
-    const history = useHistory();
+    const [Prev, setPrev] = useState(0)
+    const [PrevQuantity, setPrevQuantity] = useState()
+    
+    var isAdded = 0
+    var prevQuantity = null
+    const refId = db.collection("users").doc("4sfrRMB5ROMxXDvmVdwL").collection("basket").where( "id" , "==" , id);
+
+    refId.get().then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+            isAdded ++
+           setPrev(isAdded)
+         });
+        });
+    
+        console.log(Prev);
+
+    const addToBasket = ()=> {
+        
+        // console.log(isAdded)
+        const refId = db.collection("users").doc("4sfrRMB5ROMxXDvmVdwL").collection("basket").where( "id" , "==" , id);
+       
+  
+
+        refId.get().then(function(querySnapshot) {
+            querySnapshot.forEach(function(doc) {
+                
+                prevQuantity = doc.data().quantity;
+                console.log(prevQuantity)
+                setPrevQuantity(prevQuantity)
+                
+
+                    
+        if (Prev === 1) {
+        refId.get().then(function(querySnapshot) {
+            querySnapshot.forEach(function(doc) {
+                doc.ref.update({
+                    "quantity": prevQuantity + quantity,
+                  
+                  })
+            });
+            });
+     }
+                
+            });
+            });
+
+
+                
+       
+    
+    
+       if (Prev === 0 ) {
+        db.collection("users").doc("4sfrRMB5ROMxXDvmVdwL").collection("basket").add({
+            id,
+            quantity
+        }).then(
+
+           ()=>{ refId.get().then(function(querySnapshot) {
+                querySnapshot.forEach(function(doc) {
+                    isAdded ++
+                   setPrev(isAdded)
+                 });
+                });
+                console.log(Prev);
+                
+            }
+
+        ) 
+     }
+    // else if (Prev === 1) {
+    //     refId.get().then(function(querySnapshot) {
+    //         querySnapshot.forEach(function(doc) {
+    //             doc.ref.update({
+    //                 "quantity": 123,
+                  
+    //               })
+    //         });
+    //         });
+    //  }
+
+        }
+     
+
+    // // const [{ basket }, dispatch] = useStateValue();
+    // const history = useHistory();
 
     // const addToBasket = ()=> {
     //     console.log({id, title, image, rating, price, route})
@@ -54,7 +138,7 @@ function ProductDetails({id, title, image, body1,body2, price}) {
                         </div>
                     </div>
                     <div className="productDetails__right__checkout__button">
-                        <button className="addToBasket">add to basket</button>
+                        <button className="addToBasket" onClick={addToBasket}>add to basket</button>
                     </div>
                 </div>
             </div>
