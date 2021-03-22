@@ -8,6 +8,7 @@ function ProductDetails({id, title, image, body1,body2, price}) {
     const [quantity, setQuantity] = useState(1)
     const [Prev, setPrev] = useState(0)
     const [PrevQuantity, setPrevQuantity] = useState()
+    const [IsDisabled, setIsDisabled] = useState(false)
     
     var isAdded = 0
     var prevQuantity = null
@@ -23,6 +24,8 @@ function ProductDetails({id, title, image, body1,body2, price}) {
         console.log(Prev);
 
     const addToBasket = ()=> {
+
+        setIsDisabled(true);
         
         // console.log(isAdded)
         const refId = db.collection("users").doc("4sfrRMB5ROMxXDvmVdwL").collection("basket").where( "id" , "==" , id);
@@ -46,7 +49,10 @@ function ProductDetails({id, title, image, body1,body2, price}) {
                   
                   })
             });
-            });
+            }).then(
+                setIsDisabled(false)
+               
+            );
      }
                 
             });
@@ -68,12 +74,16 @@ function ProductDetails({id, title, image, body1,body2, price}) {
                     isAdded ++
                    setPrev(isAdded)
                  });
-                });
+                }).then(
+                    setIsDisabled(false)
+                   
+                );
                 console.log(Prev);
                 
             }
 
         ) 
+  
      }
     // else if (Prev === 1) {
     //     refId.get().then(function(querySnapshot) {
@@ -85,9 +95,11 @@ function ProductDetails({id, title, image, body1,body2, price}) {
     //         });
     //         });
     //  }
-
+    //  if (Prev === 1){
+    //     setIsDisabled(false)
+    //     console.log(IsDisabled)
+    //         }
         }
-     
 
     // // const [{ basket }, dispatch] = useStateValue();
     // const history = useHistory();
@@ -138,7 +150,7 @@ function ProductDetails({id, title, image, body1,body2, price}) {
                         </div>
                     </div>
                     <div className="productDetails__right__checkout__button">
-                        <button className="addToBasket" onClick={addToBasket}>add to basket</button>
+                        <button className="addToBasket" onClick={addToBasket} disabled={IsDisabled}>add to basket</button>
                     </div>
                 </div>
             </div>
