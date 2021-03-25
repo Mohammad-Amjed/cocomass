@@ -6,22 +6,56 @@ import BasketItem from './BasketItem'
 import OrderSummary from './OrderSummary'
 
 function Cart() {
+    
     const [snapshots, setSnapshots] = useState();
+    const [items, setItems] = useState([]);
+    const itemsArray = [];
     useEffect(()=> {
+        let cancelled = false;
         db.collection("users").doc("4sfrRMB5ROMxXDvmVdwL").collection("basket")
-         .get()
-         .then((snapshot) => {
-          setSnapshots(snapshot.docs)            
-         }
-        ) 
-        
-        ; 
-  
+        .get()
+        .then((snapshot) => {
+            // *** Don't try to set state if we've been unmounted in the meantime
+            if (!cancelled) {
+                setSnapshots(snapshot.docs);
+                // *** Create `items` **once** when you get the snapshots
+                setItems(snapshot.docs.map(doc => doc.data()));
+            }
+        })
+        // *** You need to catch and handle rejections
+        .catch(error => {
+            console.log(error)
+        });
+        return () => {
+            // *** The component has been unmounted. If you can proactively cancel
+            // the outstanding DB operation here, that would be best practice.
+            // This sets a flag so that it definitely doesn't try to update an
+            // unmounted component, either because A) You can't cancel the DB
+            // operation, and/or B) You can, but the cancellation occurred *just*
+            // at the wrong time to prevent the promise fulfillment callback from
+            // being queued. (E.g., you need it even if you can cancel.)
+            cancelled = true;
+        };
     }, []);
 
-   
-    let item = ""
-   
+
+    // ***  get from the database ***** //
+
+    console.log(items)
+
+
+        items.forEach(async(item) => {
+        const id = item.id
+         await db.collection("products").doc(id).get().then( (e)=>{
+          item.image =  (e.data().image);
+          item.title =  (e.data().title);
+          item.price =  (e.data().price);  
+                         
+         })
+         console.log(item.image)
+                })
+      
+               
     return (
         <div className="cart">
             <div className="cart__items">
@@ -29,20 +63,13 @@ function Cart() {
                     <h3>Shoping Basket</h3>
                 </div>
                 <div className="cart__items__item">
-             {
-                       snapshots && snapshots.map((doc)=>(
-                         
-                        db.collection("products").doc(doc.data().id).get().then(function(e){
-                               console.log(e.data().image)
-                           } ),
-                           <BasketItem />
-                           
-                           ))
-                  
-             }
-                   
-                
-                </div>
+    {/* { items && items.map(async(item) => {
+        const title = await item.title;
+        const image = await item.image;
+        const price = await item.price;
+
+    return <BasketItem title={title} image={image} id={item.id} price={price} quantity={item.quantity}  /> })/* *** Or whatever renders ID  */}
+</div>
                 <div className="cart__items__continueShopping">
                 <Link to="/checkout">Continue Shopping</Link>
                 </div>
@@ -55,3 +82,7 @@ function Cart() {
 }
 
 export default Cart
+
+
+
+           
