@@ -9,10 +9,7 @@ function Cart() {
     
     const [snapshots, setSnapshots] = useState();
     const [items, setItems] = useState([]);
-    const [Image, setImage] = useState()
-    const [Price, setPrice] = useState()
-    const [Title, setTitle] = useState()
-    const [Quantity, setQuantity] = useState()
+    const [updateItem, setUpdateItem] = useState()
   
     useEffect(()=> {
         let cancelled = false;
@@ -57,11 +54,7 @@ useEffect(() => {
           item.price =  (e.data().price);  
                          
          })
-         setImage(item.image)
-         setPrice(item.price)
-         setTitle(item.title)
-         setQuantity(item.quantity)   
-         console.log("check")      
+        setUpdateItem(item)
                          })
 
 
@@ -77,7 +70,7 @@ useEffect(() => {
                 <div className="cart__items__item">
      { items && items.map((item) => 
      
-     <BasketItem items={items} price={item.price} image={item.image} title={item.title} quantity={item.quantity}/> )/* *** Or whatever renders ID  */}
+     <BasketItem price={item.price} image={item.image} title={item.title} quantity={item.quantity}/> )/* *** Or whatever renders ID  */}
 </div>
                 <div className="cart__items__continueShopping">
                 <Link to="/checkout">Continue Shopping</Link>

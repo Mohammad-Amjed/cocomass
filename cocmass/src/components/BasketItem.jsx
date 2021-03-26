@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { db } from '../backend/firebase'
 import "../css/BasketItem.css"
 
-function BasketItem({items  , price , title , image , quantity}) {
+function BasketItem({ price , title , image , quantity}) {
     // const [quantity, setQuantity] = useState(1)
 
     return (
@@ -27,7 +26,7 @@ function BasketItem({items  , price , title , image , quantity}) {
                     </div>
                 </div>
                 <div className="basketItem__info__price">
-                    <span>{price}</span>
+                    <span>{price} AED</span>
                 </div>    
             </div>       
         </div>
