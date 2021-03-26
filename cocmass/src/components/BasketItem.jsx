@@ -1,9 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { db } from '../backend/firebase'
 import "../css/BasketItem.css"
-function BasketItem({id, title, image , price , quantity}) {
+
+function BasketItem({items  , price , title , image , quantity}) {
     // const [quantity, setQuantity] = useState(1)
-    console.log([image , quantity])
+
     return (
+    
         <div className="basketItem">
             <div className="basketItem__image">
                 <img src={image}/>

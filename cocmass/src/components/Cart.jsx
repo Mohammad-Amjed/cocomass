@@ -9,6 +9,10 @@ function Cart() {
     
     const [snapshots, setSnapshots] = useState();
     const [items, setItems] = useState([]);
+    const [Image, setImage] = useState()
+    const [Price, setPrice] = useState()
+    const [Title, setTitle] = useState()
+    const [Quantity, setQuantity] = useState()
   
     useEffect(()=> {
         let cancelled = false;
@@ -44,7 +48,8 @@ function Cart() {
     console.log(items)
 
 
-        items.forEach(async(item) => {
+useEffect(() => {
+    items.forEach(async(item) => {
         const id = item.id
          await db.collection("products").doc(id).get().then( (e)=>{
           item.image =  (e.data().image);
@@ -52,9 +57,17 @@ function Cart() {
           item.price =  (e.data().price);  
                          
          })
-                })
+         setImage(item.image)
+         setPrice(item.price)
+         setTitle(item.title)
+         setQuantity(item.quantity)   
+         console.log("check")      
+                         })
+
+
+    }, [items])
     
-                  
+             
     return (
         <div className="cart">
             <div className="cart__items">
@@ -64,7 +77,7 @@ function Cart() {
                 <div className="cart__items__item">
      { items && items.map((item) => 
      
-     <BasketItem title={item.title} image={item.image} id={item.id} price={item.price} quantity={item.quantity}  /> )/* *** Or whatever renders ID  */}
+     <BasketItem items={items} price={item.price} image={item.image} title={item.title} quantity={item.quantity}/> )/* *** Or whatever renders ID  */}
 </div>
                 <div className="cart__items__continueShopping">
                 <Link to="/checkout">Continue Shopping</Link>
