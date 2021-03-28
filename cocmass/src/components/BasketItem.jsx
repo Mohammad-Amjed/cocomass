@@ -1,8 +1,35 @@
 import React, { useEffect, useState } from 'react'
+import { db } from '../backend/firebase';
 import "../css/BasketItem.css"
 
-function BasketItem({ price , title , image , quantity}) {
-    // const [quantity, setQuantity] = useState(1)
+function BasketItem({ price , title , image , quantity , id}) {
+    const [totalQuantity, setTotalQuantity] = useState(quantity)
+    const refId = db.collection("users").doc("4sfrRMB5ROMxXDvmVdwL").collection("basket").where( "id" , "==" , id);
+    const decrement = ()=>{
+        refId.get().then(
+            function(querySnapshot) {
+                querySnapshot.forEach(function(doc) {
+                    doc.ref.update({
+                        "quantity": totalQuantity - 1,
+
+                      
+                      }).then(setTotalQuantity(totalQuantity - 1))
+                });
+                }
+         )
+    }
+    const increment = ()=>{   
+             refId.get().then(
+                function(querySnapshot) {
+                    querySnapshot.forEach(function(doc) {
+                        doc.ref.update({
+                            "quantity": totalQuantity + 1,
+
+                          
+                          }).then(setTotalQuantity(totalQuantity + 1))
+                    });
+                    }
+             )}
 
     return (
     
@@ -19,9 +46,9 @@ function BasketItem({ price , title , image , quantity}) {
                         </div>
 
                         <div className="basketItem__info__title__price__right">
-                        <span >-</span>
-                        <span type="text" className="number">{quantity}</span>
-                        <span >+</span>
+                        <span onClick={decrement} >-</span>
+                        <span type="text" className="number">{totalQuantity}</span>
+                        <span onClick={increment} >+</span>
                         </div>
                     </div>
                 </div>

@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import "../css/OrderSummary.css"
 
-function OrderSummary() {
+function OrderSummary({subTotal}) {
     return (
         <div className="basket">
         <div className="orderSummary">
@@ -19,7 +19,7 @@ function OrderSummary() {
                     <span>Subtotal (<span><span>2</span> items)</span></span>
                 </div>
                 <div className="OrderSummary__subtotal__subtotal__price">
-                    <span>AED <span>50</span></span>
+                    <span>AED <span>{subTotal}</span></span>
                 </div>
             </div>
             <div className="OrderSummary__subtotal__shipping">

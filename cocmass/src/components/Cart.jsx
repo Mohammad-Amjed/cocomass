@@ -10,6 +10,8 @@ function Cart() {
     const [snapshots, setSnapshots] = useState();
     const [items, setItems] = useState([]);
     const [updateItem, setUpdateItem] = useState()
+    const [subTotal, setSubTotal] = useState(null)
+    const [prevSubTotal, setPrevSubTotal] = useState(0)
   
     useEffect(()=> {
         let cancelled = false;
@@ -51,14 +53,21 @@ useEffect(() => {
          await db.collection("products").doc(id).get().then( (e)=>{
           item.image =  (e.data().image);
           item.title =  (e.data().title);
-          item.price =  (e.data().price);  
+          item.price =  (e.data().price); 
+        //   setPrevSubTotal(subTotal) 
+          setSubTotal(subTotal + (item.price * item.quantity))
+          
                          
          })
         setUpdateItem(item)
+        
+        
                          })
 
 
     }, [items])
+    console.log(subTotal)
+    console.log(prevSubTotal)
     
              
     return (
@@ -70,14 +79,14 @@ useEffect(() => {
                 <div className="cart__items__item">
      { items && items.map((item) => 
      
-     <BasketItem price={item.price} image={item.image} title={item.title} quantity={item.quantity}/> )/* *** Or whatever renders ID  */}
+     <BasketItem price={item.price} image={item.image} title={item.title} quantity={item.quantity} id={item.id}/> )/* *** Or whatever renders ID  */}
 </div>
                 <div className="cart__items__continueShopping">
                 <Link to="/checkout">Continue Shopping</Link>
                 </div>
             </div>
             <div className="cart__total">
-               <OrderSummary />
+               <OrderSummary  subTotal={subTotal}/>
             </div>
         </div>
     )
