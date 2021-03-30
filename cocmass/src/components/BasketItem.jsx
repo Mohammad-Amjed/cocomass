@@ -7,7 +7,7 @@ function BasketItem({ price , title , image , quantity , id}) {
     const refId = db.collection("users").doc("4sfrRMB5ROMxXDvmVdwL").collection("basket").where( "id" , "==" , id);
     const decrement = ()=>{
         refId.get().then(
-            function(querySnapshot) {
+            (querySnapshot)=> {
                 querySnapshot.forEach(function(doc) {
                     doc.ref.update({
                         "quantity": totalQuantity - 1,
@@ -20,7 +20,7 @@ function BasketItem({ price , title , image , quantity , id}) {
     }
     const increment = ()=>{   
              refId.get().then(
-                function(querySnapshot) {
+                (querySnapshot)=> {
                     querySnapshot.forEach(function(doc) {
                         doc.ref.update({
                             "quantity": totalQuantity + 1,

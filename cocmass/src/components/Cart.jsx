@@ -10,8 +10,9 @@ function Cart() {
     const [snapshots, setSnapshots] = useState();
     const [items, setItems] = useState([]);
     const [updateItem, setUpdateItem] = useState()
-    const [subTotal, setSubTotal] = useState(null)
+    const [subTotal, setSubTotal] = useState([])
     const [prevSubTotal, setPrevSubTotal] = useState(0)
+    const oneSubTotal = [];
   
     useEffect(()=> {
         let cancelled = false;
@@ -45,29 +46,28 @@ function Cart() {
     // ***  get from the database ***** //
 
     console.log(items)
-
+    
 
 useEffect(() => {
     items.forEach(async(item) => {
+        
         const id = item.id
          await db.collection("products").doc(id).get().then( (e)=>{
           item.image =  (e.data().image);
           item.title =  (e.data().title);
           item.price =  (e.data().price); 
         //   setPrevSubTotal(subTotal) 
-          setSubTotal(subTotal + (item.price * item.quantity))
-          
-                         
+        //   oneSubTotal.push(item.price * item.quantity)    
+        //   setSubTotal(oneSubTotal)      
          })
         setUpdateItem(item)
-        
         
                          })
 
 
     }, [items])
-    console.log(subTotal)
-    console.log(prevSubTotal)
+    // console.log(subTotal)
+   
     
              
     return (
@@ -86,7 +86,7 @@ useEffect(() => {
                 </div>
             </div>
             <div className="cart__total">
-               <OrderSummary  subTotal={subTotal}/>
+               <OrderSummary />
             </div>
         </div>
     )

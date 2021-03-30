@@ -129,7 +129,7 @@ function ProductDetails({id, title, image, body1,body2, price}) {
                     <h2>{title}</h2>
                 </div>
                 <div className="productDetails__right__price">
-                    <h2>{price}</h2>
+                    <h2>{price} AED</h2>
                 </div>
                 
                 <div className="productDetails__right__info">
