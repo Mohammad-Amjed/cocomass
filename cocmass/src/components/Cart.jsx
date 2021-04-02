@@ -45,7 +45,7 @@ function Cart() {
 
     // ***  get from the database ***** //
 
-    console.log(items)
+    // console.log(items)
     
 
 useEffect(() => {
@@ -61,7 +61,7 @@ useEffect(() => {
         //   setSubTotal(oneSubTotal)      
          })
         setUpdateItem(item)
-        
+        // console.log(item.price)
                          })
 
 

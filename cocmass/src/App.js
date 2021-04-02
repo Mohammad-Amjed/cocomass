@@ -21,7 +21,7 @@ function App() {
       ; 
     
   }, []);
-  console.log(snapshots)
+  // console.log(snapshots)
 
   return (
     <Router>
