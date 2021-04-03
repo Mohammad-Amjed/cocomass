@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { db } from '../backend/firebase'
 import "../css/Checkout.css"
 import OrderDetails from './OrderDetails'
 import OrderItem from './OrderItem'
 
 
 function Checkout() {
+
+
     return (
         <div className="checkout">
             <div className="checkout__address">

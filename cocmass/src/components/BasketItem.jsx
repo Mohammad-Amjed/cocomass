@@ -13,7 +13,9 @@ function BasketItem({ price , title , image , quantity , id}) {
                         "quantity": totalQuantity - 1,
 
                       
-                      }).then(setTotalQuantity(totalQuantity - 1))
+                      }).then(setTotalQuantity(totalQuantity - 1)
+                      
+                      )
                 });
                 }
          )
