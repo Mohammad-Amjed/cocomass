@@ -86,7 +86,7 @@ function OrderSummary() {
                     <span>Shipping</span>
                 </div>
                 <div className="OrderSummary__subtotal__shipping__price">
-                    <span>AED <span>10</span></span>
+                    <span>AED <span>30</span></span>
                 </div>
                 
             </div>

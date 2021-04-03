@@ -1,12 +1,144 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { db } from '../backend/firebase'
+import { db, timestamp } from '../backend/firebase'
 import "../css/Checkout.css"
 import OrderDetails from './OrderDetails'
 import OrderItem from './OrderItem'
 
 
 function Checkout() {
+    const [Fname, setFname] = useState()
+    const [Lname, setLname] = useState()
+    const [City, setCity] = useState()
+    const [ArdessOne, setArdessOne] = useState()
+    const [ArdressTwo, setArdressTwo] = useState()
+    const [Mobile, setMobile] = useState()
+    const [items, setItems] = useState([]);
+    const [updateItem, setUpdateItem] = useState()
+    const [subTotal, setSubTotal] = useState([]);
+    const [Total, setTotal] = useState(0);
+    const CreatedAt = timestamp();
+    useEffect(() => {
+        db.collection("users")
+          .doc("4sfrRMB5ROMxXDvmVdwL")
+          .collection("basket")
+          .onSnapshot((docs) => {
+            let oneSubTotal = [];
+            let quantityArray = [];
+            let object = 0;
+            let num = 0
+            let id = undefined;
+            let quantityPromises = [];
+            docs.forEach((doc) => {
+              object = doc.data();
+              id = object.id;
+              quantityPromises.push(db.collection("users").doc("4sfrRMB5ROMxXDvmVdwL").collection("basket").where( "id" , "==" , id).get())
+             });
+ 
+            Promise.all(quantityPromises).then((allDocumentsFromForLoop) => {
+                allDocumentsFromForLoop.map((documents) => {
+                    documents.forEach(async doc => {
+                        quantityArray.push(doc.data().quantity) 
+                       await db.collection("products").doc(doc.data().id).get().then( (e)=>{
+                            doc.price =  (e.data().price);
+
+                            oneSubTotal.push(doc.price * doc.data().quantity) 
+                            setSubTotal(oneSubTotal) 
+                            setTimeout(()=>{  
+                                num=0
+                                console.log(oneSubTotal)          
+                             oneSubTotal.forEach(sub =>{
+                                num+=sub                  
+                        }
+                        )
+                    setTotal(num)
+                 },0)  
+                   
+                        })
+                    })
+                });
+              });
+          });
+      }, []);
+
+    useEffect(()=> {
+        let cancelled = false;
+        db.collection("users").doc("4sfrRMB5ROMxXDvmVdwL").collection("basket")
+        .get()
+        .then((snapshot) => {
+            // *** Don't try to set state if we've been unmounted in the meantime
+            if (!cancelled) {
+               
+                // *** Create `items` **once** when you get the snapshots
+                setItems(snapshot.docs.map(doc => doc.data()));
+            }
+        })
+        // *** You need to catch and handle rejections
+        .catch(error => {
+            console.log(error)
+        });
+        return () => {
+            // *** The component has been unmounted. If you can proactively cancel
+            // the outstanding DB operation here, that would be best practice.
+            // This sets a flag so that it definitely doesn't try to update an
+            // unmounted component, either because A) You can't cancel the DB
+            // operation, and/or B) You can, but the cancellation occurred *just*
+            // at the wrong time to prevent the promise fulfillment callback from
+            // being queued. (E.g., you need it even if you can cancel.)
+            cancelled = true;
+        };
+    }, []);
+
+
+    // ***  get from the database ***** //
+
+    // console.log(items)
+    
+
+useEffect(() => {
+    items.forEach(async(item) => {
+        
+        const id = item.id
+         await db.collection("products").doc(id).get().then( (e)=>{
+          item.image =  (e.data().image);
+          item.title =  (e.data().title);
+          item.price =  (e.data().price); 
+        //   setPrevSubTotal(subTotal) 
+        //   oneSubTotal.push(item.price * item.quantity)    
+        //   setSubTotal(oneSubTotal)      
+         })
+        setUpdateItem(item)
+        // console.log(item.price)
+                         })
+
+
+    }, [items])
+
+    const handleSubmit = ()=>{
+        db.collection("users").doc("4sfrRMB5ROMxXDvmVdwL").collection("info").doc("address").set({
+            Fname,
+            Lname,
+            City,
+            ArdessOne,
+            ArdressTwo,
+            Mobile
+        }).then(console.log("done"))
+             db.collection("users").doc("4sfrRMB5ROMxXDvmVdwL").collection("info").doc("orders").collection("ordersDetails").doc().set({
+            total : Total + 30,
+            items,
+            CreatedAt
+        }).then(
+            db.collection("users").doc("4sfrRMB5ROMxXDvmVdwL").collection("basket").get().then(function(querySnapshot) {
+                querySnapshot.forEach(function(doc) {
+                    doc.ref.delete()
+                });
+                }).then(console.log("done 2"))
+        )
+        
+    }
+
+    
+
 
 
     return (
@@ -20,13 +152,13 @@ function Checkout() {
                     <span className="checkout__address__details__name__element">
                         <label for="billing_first_name" class="">First name</label>
                         <span className="checkout__address__details__name__element__input">
-                             <input className="checkout__address__details__info__element__input__element" type="text" placeholder="" />
+                             <input className="checkout__address__details__info__element__input__element" type="text" placeholder="" value={Fname} onChange={e=>setFname(e.target.value)}/>
                         </span>
                    </span>
                    <span className="checkout__address__details__name__element">
                         <label for="billing_first_name" class="">Last name</label>
                         <span className="checkout__address__details__name__element__input">
-                             <input className="checkout__address__details__info__element__input__element" type="text" placeholder="" />
+                             <input className="checkout__address__details__info__element__input__element" type="text" placeholder="" value={Lname} onChange={e=>setLname(e.target.value)}/>
                         </span>
                    </span>
                   </div>
@@ -34,47 +166,55 @@ function Checkout() {
                     <span className="checkout__address__details__info__element">
                         <label for="billing_first_name" class="">City</label>
                         <span className="checkout__address__details__info__element__input">
-                        <select className="checkout__address__details__info__element__input__element" >
-                        <option value="" disabled selected hidden>Choose a City</option>
-                            <option value="saab">Sharjah</option>
-                            <option value="opel">Dubai</option>
-                            <option value="audi">AbuDhabi</option>
-                            <option value="opel">AlFujairah</option>
-                            <option value="audi">UmAlquain</option>
-                            <option value="opel">Ajman</option>
-                            <option value="audi">Ras ALkhaimah</option>
+                        <select className="checkout__address__details__info__element__input__element" value={City} onChange={e=>setCity(e.target.value)} >
+                        <option value="" disabled selected hidden >Choose a City</option>
+                            <option value="Sharjah">Sharjah</option>
+                            <option value="Dubai">Dubai</option>
+                            <option value="AbuDhabi">AbuDhabi</option>
+                            <option value="AlFijairah">AlFujairah</option>
+                            <option value="UmAlquain">UmAlquain</option>
+                            <option value="Ajman">Ajman</option>
+                            <option value="Ras Alkhaimah">Ras ALkhaimah</option>
                         </select>
                         </span>
                     </span>
                     <span className="checkout__address__details__info__element">
                         <label for="billing_first_name" class="">Adreess line 1</label>
                         <span className="checkout__address__details__info__element__input">
-                             <input className="checkout__address__details__info__element__input__element" type="text" placeholder="" />
+                             <input className="checkout__address__details__info__element__input__element" type="text" placeholder="" value={ArdessOne} onChange={e=>setArdessOne(e.target.value)}/>
                         </span>
                     </span>
                     <span className="checkout__address__details__info__element">
                         <label for="billing_first_name" class="">Adreess line 2</label>
                         <span className="checkout__address__details__info__element__input">
-                             <input className="checkout__address__details__info__element__input__element" type="text" placeholder="" />
+                             <input className="checkout__address__details__info__element__input__element" type="text" placeholder="" value={ArdressTwo} onChange={e=>setArdressTwo(e.target.value)} />
                         </span>
                     </span>
                     <span className="checkout__address__details__info__element">
                         <label for="billing_first_name" class="">Mobile</label>
                         <span className="checkout__address__details__info__element__input">
-                             <input className="checkout__address__details__info__element__input__element" type="text" placeholder="" />
+                             <input className="checkout__address__details__info__element__input__element" type="text" placeholder="" value={Mobile} onChange={e=>setMobile(e.target.value)}/>
                         </span>
                     </span>
                     </div>
                 </div>
                 <div className="yourOrder">
                 <h3>Your Order</h3>
-                    <OrderItem />
-                    <OrderItem />
+                { items && items.map((item) => 
+     
+     <OrderItem price={item.price} image={item.image} title={item.title} quantity={item.quantity} id={item.id}/> )/* *** Or whatever renders ID  */}
                 </div>
             </div>
             <div className="checkout__placeOrder">
-                 <OrderDetails />
+                {console.log(items)}
+                <div className="checkout__placeOrder__OrderDetails">
+                    <OrderDetails total={Total} />
+                 </div>
+                 <div className=" checkout__placeOrder basket__button">
+                    <Link onClick={handleSubmit}> Place Order</Link>
+                </div>
             </div>
+            
         </div>
     )
 }
