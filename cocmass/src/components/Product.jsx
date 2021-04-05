@@ -1,8 +1,29 @@
+import { auth } from '../backend/firebase'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import "../css/Product.css"
 
 function Product({image, price , title , body1 , body2 , path}) {
+    const  logIn = ()=>{
+        auth
+        .createUserWithEmailAndPassword("w@email.com", "password")
+        .then((auth) => {
+          auth.user.updateProfile({
+            displayName: "Name",})
+          console.log(auth.user.uid);
+          console.log()
+        })
+        .catch((e) => {
+          alert(e.message);
+        });
+    } 
+    const logOut = ()=>{
+         auth.signOut().then(() => {
+            console.log("out")
+          }).catch((error) => {
+            // An error happened.
+          });
+    }
   
     return (
         <div className="product">
@@ -15,7 +36,8 @@ function Product({image, price , title , body1 , body2 , path}) {
                     <p>{body1}</p>
                     <p>{body2}</p>
                     <div className="product__callToAction">
-                         <Link to={path}>Buy Now</Link>
+                         <Link to={path} onClick={logIn}>Buy Now</Link>
+                         <Link onClick={logOut} ></Link>
                     </div>
                 </div>
         
