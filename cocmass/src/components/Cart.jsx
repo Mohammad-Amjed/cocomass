@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { db } from '../backend/firebase'
+import { auth, db } from '../backend/firebase'
 import "../css/Cart.css"
 import BasketItem from './BasketItem'
 import OrderSummary from './OrderSummary'
@@ -13,10 +13,18 @@ function Cart() {
     const [subTotal, setSubTotal] = useState([])
     const [prevSubTotal, setPrevSubTotal] = useState(0)
     const oneSubTotal = [];
+    const [User, setUser] = useState()
+    useEffect(() => {
+      auth.onAuthStateChanged((authUser) => {
+         
+          setUser(authUser)
+      })
+     
+  }, [])
   
     useEffect(()=> {
         let cancelled = false;
-        db.collection("users").doc("4sfrRMB5ROMxXDvmVdwL").collection("basket")
+       User && db.collection("users").doc(User.uid).collection("basket")
         .get()
         .then((snapshot) => {
             // *** Don't try to set state if we've been unmounted in the meantime
@@ -40,7 +48,7 @@ function Cart() {
             // being queued. (E.g., you need it even if you can cancel.)
             cancelled = true;
         };
-    }, []);
+    }, [User]);
 
 
     // ***  get from the database ***** //

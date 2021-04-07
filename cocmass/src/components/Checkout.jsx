@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { db, timestamp } from '../backend/firebase'
+import { auth, db, timestamp } from '../backend/firebase'
 import "../css/Checkout.css"
 import OrderDetails from './OrderDetails'
 import OrderItem from './OrderItem'
@@ -18,9 +18,17 @@ function Checkout() {
     const [subTotal, setSubTotal] = useState([]);
     const [Total, setTotal] = useState(0);
     const CreatedAt = timestamp();
+    const [User, setUser] = useState()
     useEffect(() => {
-        db.collection("users")
-          .doc("4sfrRMB5ROMxXDvmVdwL")
+      auth.onAuthStateChanged((authUser) => {
+         
+          setUser(authUser)
+      })
+     
+  }, [])
+    useEffect(() => {
+        User && db.collection("users")
+          .doc(User.uid)
           .collection("basket")
           .onSnapshot((docs) => {
             let oneSubTotal = [];
@@ -32,7 +40,7 @@ function Checkout() {
             docs.forEach((doc) => {
               object = doc.data();
               id = object.id;
-              quantityPromises.push(db.collection("users").doc("4sfrRMB5ROMxXDvmVdwL").collection("basket").where( "id" , "==" , id).get())
+              quantityPromises.push(db.collection("users").doc(User.uid).collection("basket").where( "id" , "==" , id).get())
              });
  
             Promise.all(quantityPromises).then((allDocumentsFromForLoop) => {
@@ -59,11 +67,11 @@ function Checkout() {
                 });
               });
           });
-      }, []);
+      }, [User]);
 
     useEffect(()=> {
         let cancelled = false;
-        db.collection("users").doc("4sfrRMB5ROMxXDvmVdwL").collection("basket")
+        User && db.collection("users").doc(User.uid).collection("basket")
         .get()
         .then((snapshot) => {
             // *** Don't try to set state if we've been unmounted in the meantime
@@ -87,7 +95,7 @@ function Checkout() {
             // being queued. (E.g., you need it even if you can cancel.)
             cancelled = true;
         };
-    }, []);
+    }, [User]);
 
 
     // ***  get from the database ***** //
@@ -115,7 +123,7 @@ useEffect(() => {
     }, [items])
 
     const handleSubmit = ()=>{
-        db.collection("users").doc("4sfrRMB5ROMxXDvmVdwL").collection("info").doc("address").set({
+       User && db.collection("users").doc(User.uid).collection("info").doc("address").set({
             Fname,
             Lname,
             City,
@@ -123,12 +131,12 @@ useEffect(() => {
             ArdressTwo,
             Mobile
         }).then(console.log("done"))
-             db.collection("users").doc("4sfrRMB5ROMxXDvmVdwL").collection("info").doc("orders").collection("ordersDetails").doc().set({
+             db.collection("users").doc(User.uid).collection("info").doc("orders").collection("ordersDetails").doc().set({
             total : Total + 30,
             items,
             CreatedAt
         }).then(
-            db.collection("users").doc("4sfrRMB5ROMxXDvmVdwL").collection("basket").get().then(function(querySnapshot) {
+            db.collection("users").doc(User.uid).collection("basket").get().then(function(querySnapshot) {
                 querySnapshot.forEach(function(doc) {
                     doc.ref.delete()
                 });

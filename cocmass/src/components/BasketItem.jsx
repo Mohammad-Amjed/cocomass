@@ -1,12 +1,20 @@
 import React, { useEffect, useState } from 'react'
-import { db } from '../backend/firebase';
+import { auth, db } from '../backend/firebase';
 import "../css/BasketItem.css"
 
 function BasketItem({ price , title , image , quantity , id}) {
     const [totalQuantity, setTotalQuantity] = useState(quantity)
-    const refId = db.collection("users").doc("4sfrRMB5ROMxXDvmVdwL").collection("basket").where( "id" , "==" , id);
+    const [User, setUser] = useState()
+    useEffect(() => {
+      auth.onAuthStateChanged((authUser) => {
+         
+          setUser(authUser)
+      })
+     
+  }, [])
+    const refId =User &&  db.collection("users").doc(User.uid).collection("basket").where( "id" , "==" , id);
     const decrement = ()=>{
-        refId.get().then(
+       User && refId.get().then(
             (querySnapshot)=> {
                 querySnapshot.forEach(function(doc) {
                     doc.ref.update({
@@ -21,7 +29,7 @@ function BasketItem({ price , title , image , quantity , id}) {
          )
     }
     const increment = ()=>{   
-             refId.get().then(
+            User && refId.get().then(
                 (querySnapshot)=> {
                     querySnapshot.forEach(function(doc) {
                         doc.ref.update({

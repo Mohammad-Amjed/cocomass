@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { db } from '../backend/firebase'
+import { auth, db } from '../backend/firebase'
 import "../css/OrderSummary.css"
 
 import firebase from "firebase/app";
@@ -16,11 +16,19 @@ function OrderSummary() {
     const [Total, setTotal] = useState(0)
     const [TRY, setTRY] = useState()
     const [price, setPrice] = useState()
+    const [User, setUser] = useState()
+    useEffect(() => {
+      auth.onAuthStateChanged((authUser) => {
+         
+          setUser(authUser)
+      })
+     
+  }, [])
    
    
     useEffect(() => {
-        db.collection("users")
-          .doc("4sfrRMB5ROMxXDvmVdwL")
+       User && db.collection("users")
+          .doc(User.uid)
           .collection("basket")
           .onSnapshot((docs) => {
             let oneSubTotal = [];
@@ -32,7 +40,7 @@ function OrderSummary() {
             docs.forEach((doc) => {
               object = doc.data();
               id = object.id;
-              quantityPromises.push(db.collection("users").doc("4sfrRMB5ROMxXDvmVdwL").collection("basket").where( "id" , "==" , id).get())
+              quantityPromises.push(db.collection("users").doc(User.uid).collection("basket").where( "id" , "==" , id).get())
              });
  
             Promise.all(quantityPromises).then((allDocumentsFromForLoop) => {
@@ -59,7 +67,7 @@ function OrderSummary() {
                 });
               });
           });
-      }, []);
+      }, [User]);
 
 
     return (

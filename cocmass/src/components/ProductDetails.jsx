@@ -1,20 +1,30 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 // import { useStateValue } from '../backend/Stateprovider';
 import "../css/ProductDetails.css"
 import { useHistory, Link } from "react-router-dom";
-import { db } from '../backend/firebase';
+import { auth, db } from '../backend/firebase';
 
 function ProductDetails({id, title, image, body1,body2, price}) {
     const [quantity, setQuantity] = useState(1)
     const [Prev, setPrev] = useState(0)
     const [PrevQuantity, setPrevQuantity] = useState()
     const [IsDisabled, setIsDisabled] = useState(false)
+    const [User, setUser] = useState()
+    
+    useEffect(() => {
+        auth.onAuthStateChanged((authUser) => {
+           
+            setUser(authUser)
+        })
+       
+    }, [])
+
     
     var isAdded = 0
     var prevQuantity = null
-    const refId = db.collection("users").doc("4sfrRMB5ROMxXDvmVdwL").collection("basket").where( "id" , "==" , id);
+    const refId =  User && db.collection("users").doc(User.uid).collection("basket").where( "id" , "==" , id);
 
-    refId.get().then(function(querySnapshot) {
+    User && refId.get().then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
             isAdded ++
            setPrev(isAdded)
@@ -23,16 +33,18 @@ function ProductDetails({id, title, image, body1,body2, price}) {
     
         console.log(Prev);
 
+
+
     const addToBasket = ()=> {
 
         setIsDisabled(true);
         
         // console.log(isAdded)
-        const refId = db.collection("users").doc("4sfrRMB5ROMxXDvmVdwL").collection("basket").where( "id" , "==" , id);
+        const refId =  User && db.collection("users").doc(User.uid).collection("basket").where( "id" , "==" , id);
        
   
 
-        refId.get().then(function(querySnapshot) {
+        User && refId.get().then(function(querySnapshot) {
             querySnapshot.forEach(function(doc) {
                 
                 prevQuantity = doc.data().quantity;
@@ -61,10 +73,10 @@ function ProductDetails({id, title, image, body1,body2, price}) {
 
                 
        
-    
+
     
        if (Prev === 0 ) {
-        db.collection("users").doc("4sfrRMB5ROMxXDvmVdwL").collection("basket").add({
+        User && db.collection("users").doc(User.uid).collection("basket").add({
             id,
             quantity
         }).then(
