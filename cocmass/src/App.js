@@ -10,24 +10,6 @@ import { auth, db } from './backend/firebase'
 // import { useLocation  } from "react-router-dom";
 
 function App() {
-useEffect(() => {
-  auth.onAuthStateChanged(function(user) {
-    if (!user) {
-    auth.signInAnonymously()
-  .then((auth) => {
-    console.log("done")
-    console.log(auth.user.uid)
-  })
-  .catch((error) => {
-    var errorCode = error.code;
-    var errorMessage = error.message;
-    // ...
-  });
-    } else {
-      // No user is signed in.
-    }
-  });
-  }, [])
 
   const [snapshots, setSnapshots] = useState();
   useEffect(()=> {

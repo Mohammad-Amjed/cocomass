@@ -33,70 +33,94 @@ function ProductDetails({id, title, image, body1,body2, price}) {
     
         console.log(Prev);
 
-
-
-    const addToBasket = ()=> {
-
-        setIsDisabled(true);
-        
-        // console.log(isAdded)
-        const refId =  User && db.collection("users").doc(User.uid).collection("basket").where( "id" , "==" , id);
+  const updateBasket = (User)=>{
+//    the && operator is most likley useless 
+    const refId =  User && db.collection("users").doc(User.uid).collection("basket").where( "id" , "==" , id);
+    User && console.log(User)
        
   
 
-        User && refId.get().then(function(querySnapshot) {
-            querySnapshot.forEach(function(doc) {
-                
-                prevQuantity = doc.data().quantity;
-                console.log(prevQuantity)
-                setPrevQuantity(prevQuantity)
-                
+    User && refId.get().then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+            
+            prevQuantity = doc.data().quantity;
+            console.log(prevQuantity)
+            setPrevQuantity(prevQuantity)
+            
 
-                    
-        if (Prev === 1) {
-        refId.get().then(function(querySnapshot) {
+                
+    if (Prev === 1) {
+    refId.get().then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+            doc.ref.update({
+                "quantity": prevQuantity + quantity,
+              
+              })
+        });
+        }).then(
+            setIsDisabled(false)
+           
+        );
+ }
+            
+        });
+        });
+
+
+            
+   
+
+
+   if (Prev === 0 ) {
+    User && db.collection("users").doc(User.uid).collection("basket").add({
+        id,
+        quantity
+    }).then(
+
+       ()=>{ refId.get().then(function(querySnapshot) {
             querySnapshot.forEach(function(doc) {
-                doc.ref.update({
-                    "quantity": prevQuantity + quantity,
-                  
-                  })
-            });
+                isAdded ++
+               setPrev(isAdded)
+             });
             }).then(
                 setIsDisabled(false)
                
             );
-     }
-                
-            });
-            });
+            console.log(Prev);
+            
+        }
 
+    ) 
 
-                
-       
+ }
+  }
 
-    
-       if (Prev === 0 ) {
-        User && db.collection("users").doc(User.uid).collection("basket").add({
-            id,
-            quantity
-        }).then(
-
-           ()=>{ refId.get().then(function(querySnapshot) {
-                querySnapshot.forEach(function(doc) {
-                    isAdded ++
-                   setPrev(isAdded)
-                 });
-                }).then(
-                    setIsDisabled(false)
+    const addToBasket = ()=> {
+        setIsDisabled(true)
+   
+                  if (!User) {
+                  auth.signInAnonymously()
+                .then((auth) => {
+                  console.log("done")
+                  console.log(auth.user)
+                  setUser(auth.user)
+                  console.log(User)
+                  updateBasket(auth.user)
                    
-                );
-                console.log(Prev);
-                
-            }
+                }).then(console.log(User))
+                .catch((error) => {
+                  var errorCode = error.code;
+                  var errorMessage = error.message;
+                  // ...
+                });
+                  } else {
+                    console.log("already signed in")
+                    updateBasket(User)
+                  }
+       
+        
+        // console.log(isAdded)
 
-        ) 
-  
-     }
     // else if (Prev === 1) {
     //     refId.get().then(function(querySnapshot) {
     //         querySnapshot.forEach(function(doc) {
