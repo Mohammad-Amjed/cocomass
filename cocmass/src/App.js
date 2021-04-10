@@ -7,6 +7,7 @@ import ProductDetails from './components/ProductDetails'
 import Cart from './components/Cart'
 import Checkout from './components/Checkout'
 import { auth, db } from './backend/firebase'
+import Nav from './components/Nav'
 // import { useLocation  } from "react-router-dom";
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
 
   return (
     <Router>
+      <Nav />
       <Route path="/" exact>
         <Home />
        </Route>

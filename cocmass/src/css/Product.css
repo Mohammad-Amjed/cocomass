@@ -3,7 +3,7 @@
 }
 .product__left {
   flex: 0.4;
-  background-color: rgb(20, 20, 20);
+  background-color: rgb(134, 38, 51);
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -22,7 +22,7 @@
   top: 120px;
   left: -20%;
   color: white;
-  background-color: rgb(45, 45, 45);
+  background-color: rgb(116, 15, 41);
   font-weight: bold;
   font-family: "Lexend Mega", sans-serif;
   text-transform: uppercase;

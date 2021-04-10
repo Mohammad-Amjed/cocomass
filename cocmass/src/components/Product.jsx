@@ -46,7 +46,7 @@ function Product({image, price , title , body1 , body2 , path}) {
                     <p>{body2}</p>
                     <div className="product__callToAction">
                          <Link to={path} onClick={logIn} >Buy Now</Link>
-                         <Link onClick={logOut} ></Link>
+                         {/* <Link onClick={logOut} ></Link> */}
                     </div>
                 </div>
         
