@@ -36,7 +36,6 @@ a {
   padding-right: 16%;
 }
 .nav__navContent__userInfo {
-  /* display: flex; */
   flex: 0.1;
   padding-left: 10px;
 }

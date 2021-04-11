@@ -29,7 +29,6 @@ function Nav() {
                     <li id="menu-item-11908" className="listItem">Shop</li>
                     <li id="menu-item-11908" className="listItem">News</li>
               
-
                 </ul>
             </div>
             <div className="nav__navContent__userInfo">
