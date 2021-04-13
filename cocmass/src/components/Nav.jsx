@@ -1,9 +1,23 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import Modal from 'react-modal';
 import "../css/Nav.css"
+import { auth } from '../backend/firebase';
+import Authintication from './Authintication';
+
 
 function Nav() {
     const [ToggleHeight, setToggleHeight] = useState()
+    const [ModalIsOpen, setModalIsOpen] = useState(false)
+    const [User, setUser] = useState()
+    
+    useEffect(() => {
+        auth.onAuthStateChanged((authUser) => {
+           
+            setUser(authUser)
+        })
+       
+    }, [])
 
     const toggle = ()=>{
         if (ToggleHeight === "toggle"){
@@ -14,6 +28,31 @@ function Nav() {
             console.log(ToggleHeight)
         }
     }
+    const OpenModal = ()=> {
+        setModalIsOpen(true)
+    }
+    const closeModal = ()=> {
+      setModalIsOpen(false)
+  }
+    const logout = ()=> {
+      auth.signOut().then(() => {
+          console.log("success")
+          window.location.reload();
+        }).catch((error) => {
+          // An error happened.
+        });
+        
+    }
+    const customStyles = {
+      content : {
+        top                   : '50%',
+        left                  : '50%',
+        right                 : 'auto',
+        bottom                : 'auto',
+        marginRight           : '-50%',
+        transform             : 'translate(-50%, -50%)'
+      }
+    };
     return (
         <div className="nav">
         <nav  className="nav__navContent">
@@ -33,7 +72,14 @@ function Nav() {
             </div>
             <div className="nav__navContent__userInfo">
                 <ul id="nm-main-menu-ul" className="nm-menu">
-                    <li id="menu-item-11908" className="logIn">Log in</li>
+                {User ?   <li className="logIn" onClick={OpenModal}>
+                    Log out
+                    </li> :   <li className="logIn" onClick={OpenModal}>
+                        Log In
+                    </li>}
+                    <Modal   isOpen={ModalIsOpen} onRequestClose={closeModal} style={customStyles}>
+                        <Authintication />
+                     </Modal>
                     </ul>
                     </div>
  
