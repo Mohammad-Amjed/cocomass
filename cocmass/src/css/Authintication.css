@@ -1,0 +1,81 @@
+.auth {
+  width: 400px;
+  /* display: flex; */
+  z-index: 20;
+  border-radius: 20px;
+  /* height: 433px; */
+  /* text-align: center;
+  align-content: center;
+  align-items: center; */
+  /* margin-left: auto; */
+  /* margin-right: auto; */
+}
+
+/* .auth__image {
+  width: 50%;
+}
+.auth__image__img {
+  height: 100%;
+  object-fit: contain;
+  border-bottom-left-radius: 20px;
+  border-top-left-radius: 20px;
+} */
+.auth__login {
+  text-align: center;
+  padding-top: 50px;
+}
+.auth__login__welcome {
+  font-weight: lighter;
+}
+.auth__login__ask {
+  padding-top: 10px;
+  font-weight: lighter;
+  font-size: 12px;
+}
+.auth__login__ask__link {
+  color: rgb(56, 102, 223);
+}
+
+.auth__login__credentials__feild label {
+  text-align: start;
+  display: block;
+  color: rgb(70, 68, 68);
+  font-size: 14px;
+  padding-left: 30px;
+  padding-top: 30px;
+}
+.auth__login__credentials__feild input {
+  font-weight: bold !important;
+  border: none;
+  background: none;
+  width: 85%;
+  height: 35px;
+  border-bottom: 1px solid lightgrey;
+}
+/* .password input {
+  width: calc(85% - 24px);
+} */
+.auth__login__credentials__feilds__showPass {
+  border: none;
+  background-color: #fff;
+  position: absolute;
+  padding-top: 5px;
+  padding-bottom: 3px;
+  right: 30px;
+  outline: none;
+}
+.forgotPass {
+  padding: 25px 0;
+}
+.auth__login__signIn {
+}
+.auth__login__signIn__click {
+  font-size: 1.25rem;
+  outline: none;
+  border: none;
+  border-top: 1px solid lightgrey;
+  color: rgb(56, 102, 223);
+  height: 56px;
+  width: 400px;
+  background-color: #fff;
+}

@@ -50,8 +50,11 @@ function Nav() {
         right                 : 'auto',
         bottom                : 'auto',
         marginRight           : '-50%',
-        transform             : 'translate(-50%, -50%)'
-      }
+        transform             : 'translate(-50%, -50%)',
+        padding               : "0",
+        borderRadius          : "10px"
+      },
+      overlay: {zIndex: 1000}
     };
     return (
         <div className="nav">
@@ -63,7 +66,7 @@ function Nav() {
             <div className="nav__navContent__links">
                 <ul  className="nm-menu">
                     <li id="menu-item-11908" className="listItem"><span>our story</span></li>
-                    <li id="menu-item-11908" className="listItem"><span>Tours &</span> experiences</li>
+                    <li id="menu-item-11908"className="listItem"><span>Tours &</span> experiences</li>
                     <li id="menu-item-11908" className="listItem">Coctails</li>
                     <li id="menu-item-11908" className="listItem">Shop</li>
                     <li id="menu-item-11908" className="listItem">News</li>
