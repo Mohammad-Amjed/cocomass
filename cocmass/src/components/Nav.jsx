@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Modal from 'react-modal';
 import "../css/Nav.css"
-import { auth } from '../backend/firebase';
+import { auth, db } from '../backend/firebase';
 import Authintication from './Authintication';
 
 
@@ -10,15 +10,28 @@ function Nav() {
     const [ToggleHeight, setToggleHeight] = useState()
     const [ModalIsOpen, setModalIsOpen] = useState(false)
     const [User, setUser] = useState()
+    const [Basket, setBasket] = useState(0)
     
     useEffect(() => {
         auth.onAuthStateChanged((authUser) => {
-           
             setUser(authUser)
+            setModalIsOpen(false)
         })
        
     }, [])
 
+    useEffect(() => {
+        
+        User && db.collection("users")
+        .doc(User.uid)
+        .collection("basket")
+        .onSnapshot((docs) => {
+            let basketCount = 0
+            docs.forEach((doc) =>{basketCount = basketCount + doc.data().quantity})
+            setBasket(basketCount)
+        })
+        
+    }, [User])
     const toggle = ()=>{
         if (ToggleHeight === "toggle"){
             setToggleHeight(undefined)
@@ -30,6 +43,7 @@ function Nav() {
     }
     const OpenModal = ()=> {
         setModalIsOpen(true)
+        setToggleHeight(undefined)
     }
     const closeModal = ()=> {
       setModalIsOpen(false)
@@ -75,7 +89,7 @@ function Nav() {
             </div>
             <div className="nav__navContent__userInfo">
                 <ul id="nm-main-menu-ul" className="nm-menu">
-                {User ?   <li className="logIn" onClick={OpenModal}>
+                {User ?   <li className="logIn" onClick={logout}>
                     Log out
                     </li> :   <li className="logIn" onClick={OpenModal}>
                         Log In
@@ -89,7 +103,7 @@ function Nav() {
                     </div>
                     <div className="nav__navContent__userInfo">
                     <ul >
-                    <li id="menu-item-11908" className="basket"><span>Basket</span> 0</li>
+                    <li id="menu-item-11908" className="basket"><Link to="/cart">Basket </Link>{Basket}</li>
                     </ul>
                    
                   </div>
