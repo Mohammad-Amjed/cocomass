@@ -122,7 +122,7 @@ a {
     border: none;
     color: #bbaa7f;
   }
-  .nav__navContent__userInfo .basket span {
+  .nav__navContent__userInfo .basket a {
     color: #fff;
     padding-right: 5px;
   }
@@ -209,7 +209,7 @@ a {
   }
 }
 @media only screen and (max-width: 350px) {
-  .basket span {
+  .basket a {
     display: none;
   }
 }

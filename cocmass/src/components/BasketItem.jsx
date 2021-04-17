@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { auth, db } from '../backend/firebase';
+import DeleteOutlineRoundedIcon from '@material-ui/icons/DeleteOutlineRounded';
 import "../css/BasketItem.css"
 
 function BasketItem({ price , title , image , quantity , id}) {
@@ -41,6 +42,17 @@ function BasketItem({ price , title , image , quantity , id}) {
                     }
              )}
 
+    const remove = ()=>{
+        User && refId
+        .get().then((docs) => {
+            
+            docs.forEach((doc) =>{ doc.ref.delete()})
+            console.log("click")
+           
+        })
+
+    }
+
     return (
     
         <div className="basketItem">
@@ -59,13 +71,20 @@ function BasketItem({ price , title , image , quantity , id}) {
                         <span onClick={decrement} >-</span>
                         <span type="text" className="number">{totalQuantity}</span>
                         <span onClick={increment} >+</span>
+                    
                         </div>
                     </div>
+                    <div className="basketItem__info__title__remove" onClick={remove}>
+                        <span className="basketItem__info__title__remove__icon"><DeleteOutlineRoundedIcon style={{ fontSize: 15 }}/></span>
+                         <span className="basketItem__info__title__remove__text">Remove</span> 
+                        </div> 
                 </div>
                 <div className="basketItem__info__price">
                     <span>{price} AED</span>
+
                 </div>    
-            </div>       
+            </div>    
+          
         </div>
     )
 }

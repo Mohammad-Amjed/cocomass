@@ -25,8 +25,7 @@ function Cart() {
     useEffect(()=> {
         let cancelled = false;
        User && db.collection("users").doc(User.uid).collection("basket")
-        .get()
-        .then((snapshot) => {
+        .onSnapshot(   (snapshot) => {
             // *** Don't try to set state if we've been unmounted in the meantime
             if (!cancelled) {
                 setSnapshots(snapshot.docs);
@@ -34,10 +33,11 @@ function Cart() {
                 setItems(snapshot.docs.map(doc => doc.data()));
             }
         })
+     
         // *** You need to catch and handle rejections
-        .catch(error => {
-            console.log(error)
-        });
+        // .catch(error => {
+        //     console.log(error)
+        // });
         return () => {
             // *** The component has been unmounted. If you can proactively cancel
             // the outstanding DB operation here, that would be best practice.
@@ -79,7 +79,8 @@ useEffect(() => {
     
              
     return (
-        <div className="cart">
+        <div>
+        {items.length !== 0 ? <div className="cart">
             <div className="cart__items">
                 <div className="cart__items__title">
                     <h3>Shoping Basket</h3>
@@ -90,12 +91,17 @@ useEffect(() => {
      <BasketItem price={item.price} image={item.image} title={item.title} quantity={item.quantity} id={item.id}/> )/* *** Or whatever renders ID  */}
 </div>
                 <div className="cart__items__continueShopping">
-                <Link to="/checkout">Continue Shopping</Link>
+                <Link to="/">Continue Shopping</Link>
                 </div>
             </div>
             <div className="cart__total">
                <OrderSummary />
             </div>
+        </div> : <div className="cart empty"><h1>Your Shopping Basket is empty</h1>
+        <div className="cart__items__continueShopping">
+                <Link to="/">Continue Shopping</Link>
+                </div>
+        </div>}
         </div>
     )
 }

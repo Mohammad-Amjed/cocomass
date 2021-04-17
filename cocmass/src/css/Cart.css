@@ -33,6 +33,13 @@
 .cart__items__continueShopping a {
   color: #282828;
 }
+.empty {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  padding-top: 150px;
+}
 @media only screen and (max-width: 975px) {
   .cart {
     flex-direction: column;

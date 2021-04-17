@@ -39,6 +39,17 @@
 .basketItem__info__title__price__right span {
   padding-left: 5px;
 }
+.basketItem__info__title__remove {
+  padding-top: 45px;
+  display: flex;
+  color: rgb(118, 22, 22);
+  font-size: 0.7rem;
+}
+
+.basketItem__info__title__remove__text {
+  display: block;
+  padding-top: 3px;
+}
 @media only screen and (max-width: 470px) {
   .basketItem {
     height: 100px;
@@ -48,5 +59,8 @@
   }
   .basketItem__info {
     padding: 0 5px;
+  }
+  .basketItem__info__title__remove {
+    padding-top: 15px;
   }
 }
