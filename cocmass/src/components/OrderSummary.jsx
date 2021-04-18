@@ -98,9 +98,7 @@ function OrderSummary() {
             }
         else{
             console.log("no")
-        }})
-       
-                  
+        }})      
     
       };
     
