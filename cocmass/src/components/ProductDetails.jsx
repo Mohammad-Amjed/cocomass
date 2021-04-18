@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
-// import { useStateValue } from '../backend/Stateprovider';
+import DoneIcon from '@material-ui/icons/Done';
 import "../css/ProductDetails.css"
-import { useHistory, Link } from "react-router-dom";
 import { auth, db } from '../backend/firebase';
 
 function ProductDetails({id, title, image, body1,body2, price}) {
@@ -9,6 +8,7 @@ function ProductDetails({id, title, image, body1,body2, price}) {
     const [Prev, setPrev] = useState(0)
     const [PrevQuantity, setPrevQuantity] = useState()
     const [IsDisabled, setIsDisabled] = useState(false)
+    const [Confirm, setConfirm] = useState(false)
     const [User, setUser] = useState()
     
     useEffect(() => {
@@ -58,7 +58,8 @@ function ProductDetails({id, title, image, body1,body2, price}) {
               })
         });
         }).then(
-            setIsDisabled(false)
+            setIsDisabled(false),
+            setConfirm(true)
            
         );
  }
@@ -97,6 +98,7 @@ function ProductDetails({id, title, image, body1,body2, price}) {
 
     const addToBasket = ()=> {
         setIsDisabled(true)
+        setConfirm(false)
    
                   if (!User) {
                   auth.signInAnonymously()
@@ -174,7 +176,9 @@ function ProductDetails({id, title, image, body1,body2, price}) {
                 </div>
                 </div>
                 <div className="productDetails__right__checkout">
+                 { Confirm && <div className="productDetails__right__checkout__confirm"><span><DoneIcon /></span>{title} has been successfully added to the basket</div> }
                     <div className="productDetails__right__checkout__quantity">
+                        
                         <div className="productDetails__right__checkout__quantity__left">
                         <span>Quanity</span>
                         </div>
@@ -186,7 +190,13 @@ function ProductDetails({id, title, image, body1,body2, price}) {
                         </div>
                     </div>
                     <div className="productDetails__right__checkout__button">
-                        <button className="addToBasket" onClick={addToBasket} disabled={IsDisabled}>add to basket</button>
+                        <button className="addToBasket" onClick={addToBasket} disabled={IsDisabled}>
+                          { IsDisabled ? <div id="wave">
+                                    <span class="dot"></span>
+                                    <span class="dot"></span>
+                                    <span class="dot"></span>
+                             </div> : "add To Basket"}
+                    </button>
                     </div>
                 </div>
             </div>
