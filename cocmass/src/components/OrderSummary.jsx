@@ -10,6 +10,7 @@ import "firebase/firestore";
 function OrderSummary() {
 
     const [items, setItems] = useState([]);
+    const [Coupon, setCoupon] = useState()
     const [updateItem, setUpdateItem] = useState()
     const [subTotal, setSubTotal] = useState([])
     const [snapshots, setSnapshots] = useState();
@@ -17,6 +18,7 @@ function OrderSummary() {
     const [TRY, setTRY] = useState()
     const [price, setPrice] = useState()
     const [User, setUser] = useState()
+    const [IsCoupon, setIsCoupon] = useState(false)
     useEffect(() => {
       auth.onAuthStateChanged((authUser) => {
          
@@ -59,25 +61,57 @@ function OrderSummary() {
                                 num+=sub                  
                         }
                         )
-                    setTotal(num)
-                 },0)  
                    
-                        })
+                        
+                        
+                            db.collection("codes").doc(Coupon).get()
+                            .then((doc) => {
+                    
+                                if (doc.exists) {
+                                  console.log(doc.data().value)
+                                  setTotal((num * doc.data().value)/100)
+                                }else{
+                                    setTotal(num)
+                                }
+                              })
+                      
+
+                      
+                 },0)  
+                        }) 
                     })
+                  
                 });
+                
               });
+              setPrice(num)
           });
-      }, [User]);
+      }, [User,price,Coupon]);
 
+      const handleSubmit = event => {
+        event.preventDefault(); 
+        db.collection("codes").doc(document.getElementById("coupon").value).get()
+        .then((doc) => {
 
+            if (doc.exists) {
+               setCoupon(document.getElementById("coupon").value)
+            }
+        else{
+            console.log("no")
+        }})
+       
+                  
+    
+      };
+    
     return (
         <div className="basket">
         <div className="orderSummary">
             <h3>Order Summary</h3>
             <div className="orderSummary__cupon">
                 <form>
-                    <input type="text" placeholder="Cupon code or Gift card" />
-                    <button>APPLY CUPON</button>
+                    <input id="coupon" type="text" placeholder="Cupon code or Gift card" value={Coupon} />
+                    <button onClick={handleSubmit}>APPLY CUPON</button>
                 </form>
             </div>
             <div className="OrderSummary__subtotal">
@@ -105,7 +139,7 @@ function OrderSummary() {
                 <h3>Total </h3><small>(Inclusive of VAT)</small>
                 </div>
                 <div className="OrderSummary__Total__price">
-                    <h3> AED <span>{Total + 30}</span></h3>
+                    <h3> AED <span>{ Total + 30}</span></h3>
                 </div>
             </div>
         </div>
