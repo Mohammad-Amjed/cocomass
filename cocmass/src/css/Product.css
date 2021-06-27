@@ -11,6 +11,7 @@
 .product__left__image {
   padding-top: 40px;
   height: 90%;
+  object-fit: contain;
 }
 .product__right {
   flex: 0.6;
@@ -59,7 +60,10 @@
 }
 @media only screen and (max-width: 1100px) {
   .product {
-    flex-direction: column;
+    display: block;
+    /* flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-end; */
   }
   .product__title {
     top: -50px !important;
@@ -73,6 +77,14 @@
     text-align: justify;
   }
   .product__left {
-    height: 50vh;
+    height: 400px !important;
+    align-content: center;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+}
+@media only screen and (min-height: 915px) and (max-height: 1200px) {
+  .product {
+    height: 100vh !important;
   }
 }

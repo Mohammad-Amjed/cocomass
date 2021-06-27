@@ -1,12 +1,38 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { db } from '../backend/firebase'
+import { auth, db } from '../backend/firebase'
 import "../css/OrderDetails.css"
 import BasketItem from './BasketItem'
 import OrderItem from './OrderItem'
 
 function OrderDetails({total}) {
+    // const [Total, setTotal] = useState(total)
 
+    // const [User, setUser] = useState()
+    // useEffect(() => {
+    //   auth.onAuthStateChanged((authUser) => {
+         
+    //       setUser(authUser)
+    //   })
+     
+    // }, [])
+    // useEffect(() => {
+    //     User && total && db.collection("users").doc(User.uid).get().then((doc) => {
+    //         db.collection("codes").doc(doc.data().code).get()
+    //         .then((doc) => {
+    
+    //             if (doc.exists) {
+              
+    //              setTotal(total*doc.data().value / 100)
+                   
+    //             }else{
+    //                 setTotal(total)
+    //             }
+    //           })
+          
+    //     })
+
+    // }, [User,total])
     return (
         <div className="order">
             <div className="orderDetails">

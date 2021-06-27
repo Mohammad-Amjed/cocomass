@@ -18,7 +18,8 @@ function OrderSummary() {
     const [TRY, setTRY] = useState()
     const [price, setPrice] = useState()
     const [User, setUser] = useState()
-    const [IsCoupon, setIsCoupon] = useState(false)
+    const [prevented, setPrevented] = useState(0)
+    const [disabled, setDisabled] = useState(false)
     useEffect(() => {
       auth.onAuthStateChanged((authUser) => {
          
@@ -86,7 +87,34 @@ function OrderSummary() {
               });
               setPrice(num)
           });
-      }, [User,price,Coupon]);
+      }, [User,price]);
+      
+      useEffect(() => {
+            
+        User && db.collection("users").doc(User.uid).get()
+            .then((doc) => {
+    
+                if (doc.data().code != undefined) {
+    
+                    setDisabled(true)
+                    setCoupon(doc.data().code)
+                    db.collection("codes").doc(doc.data().code).get()
+                    .then((doc) => {
+            
+                        if (doc.exists) {
+                            alert(prevented)
+                            prevented == 0 && setTotal((Total * doc.data().value)/100)
+                         Total > 0 && setPrevented(prevented + 1) 
+                        }
+                      })
+                   
+                }
+              })
+          
+    
+
+    
+      }, [User,Total])
 
       const handleSubmit = event => {
         event.preventDefault(); 
@@ -95,12 +123,26 @@ function OrderSummary() {
 
             if (doc.exists) {
                setCoupon(document.getElementById("coupon").value)
+               db.collection("users").doc(User.uid).set({
+                   code : document.getElementById("coupon").value
+               })
+
+               db.collection("codes").doc(document.getElementById("coupon").value).get()
+               .then((doc) => {
+       
+                   if (doc.exists) {
+                     console.log(doc.data().value)
+                     setTotal((Total * doc.data().value)/100)
+                   }
+                 })
+
             }
         else{
             console.log("no")
         }})      
     
       };
+
     
     return (
         <div className="basket">
@@ -108,8 +150,8 @@ function OrderSummary() {
             <h3>Order Summary</h3>
             <div className="orderSummary__cupon">
                 <form>
-                    <input id="coupon" type="text" placeholder="Cupon code or Gift card" value={Coupon} />
-                    <button onClick={handleSubmit}>APPLY CUPON</button>
+                    <input id="coupon" type="text" placeholder={!Coupon ? "Cupon code or Gift card" : Coupon} value={Coupon} disabled={disabled} />
+                    <button onClick={handleSubmit}>{!Coupon ? "APPLY CUPON" : "Remove coupon"}</button>
                 </form>
             </div>
             <div className="OrderSummary__subtotal">

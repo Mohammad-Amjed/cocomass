@@ -84,8 +84,8 @@ function ProductDetails({id, title, image, body1,body2, price}) {
                setPrev(isAdded)
              });
             }).then(
-                setIsDisabled(false)
-               
+                setIsDisabled(false),
+                setConfirm(true)
             );
             console.log(Prev);
             
@@ -109,7 +109,7 @@ function ProductDetails({id, title, image, body1,body2, price}) {
                   console.log(User)
                   updateBasket(auth.user)
                    
-                }).then(console.log(User))
+                }).then(setConfirm(true))
                 .catch((error) => {
                   var errorCode = error.code;
                   var errorMessage = error.message;
@@ -118,7 +118,7 @@ function ProductDetails({id, title, image, body1,body2, price}) {
                   } else {
                     console.log("already signed in")
                     updateBasket(User)
-                  }
+                                    }
        
         
         // console.log(isAdded)

@@ -59,7 +59,23 @@ function Checkout() {
                                 num+=sub                  
                         }
                         )
-                    setTotal(num)
+
+                    // setTotal(num)
+                        User && num && db.collection("users").doc(User.uid).get().then((doc) => {
+                            db.collection("codes").doc(doc.data().code).get()
+                            .then((doc) => {
+                    
+                                if (doc.exists) {
+                            
+                                setTotal(num*doc.data().value / 100)
+                                
+                                }else{
+                                    setTotal(num)
+                                }
+                            })
+                        
+                        })
+
                  },0)  
                    
                         })
