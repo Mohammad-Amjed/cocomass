@@ -119,24 +119,24 @@ function Checkout() {
     // console.log(items)
     
 
-useEffect(() => {
-    items.forEach(async(item) => {
-        
-        const id = item.id
-         await db.collection("products").doc(id).get().then( (e)=>{
-          item.image =  (e.data().image);
-          item.title =  (e.data().title);
-          item.price =  (e.data().price); 
-        //   setPrevSubTotal(subTotal) 
-        //   oneSubTotal.push(item.price * item.quantity)    
-        //   setSubTotal(oneSubTotal)      
-         })
-        setUpdateItem(item)
-        // console.log(item.price)
-                         })
+        useEffect(() => {
+            items.forEach(async(item) => {
+                
+                const id = item.id
+                await db.collection("products").doc(id).get().then( (e)=>{
+                item.image =  (e.data().image);
+                item.title =  (e.data().title);
+                item.price =  (e.data().price); 
+                //   setPrevSubTotal(subTotal) 
+                //   oneSubTotal.push(item.price * item.quantity)    
+                //   setSubTotal(oneSubTotal)      
+                })
+                setUpdateItem(item)
+                // console.log(item.price)
+                                })
 
 
-    }, [items])
+            }, [items])
 
     const handleSubmit = ()=>{
        User && db.collection("users").doc(User.uid).collection("info").doc("address").set({

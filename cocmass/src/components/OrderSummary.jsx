@@ -15,6 +15,7 @@ function OrderSummary() {
     const [subTotal, setSubTotal] = useState([])
     const [snapshots, setSnapshots] = useState();
     const [Total, setTotal] = useState(0)
+    const [TotalAfterCopon, SetTotalAfterCopon] = useState(undefined)
     const [TRY, setTRY] = useState()
     const [price, setPrice] = useState()
     const [User, setUser] = useState()
@@ -92,28 +93,25 @@ function OrderSummary() {
       useEffect(() => {
             
         User && db.collection("users").doc(User.uid).get()
+            
             .then((doc) => {
-    
-                if (doc.data().code != undefined) {
-    
+               console.log(doc.data.code)
+                if (doc.data().code != "undefined") {
+                     
                     setDisabled(true)
                     setCoupon(doc.data().code)
                     db.collection("codes").doc(doc.data().code).get()
                     .then((doc) => {
             
                         if (doc.exists) {
-                            alert(prevented)
-                            prevented == 0 && setTotal((Total * doc.data().value)/100)
-                         Total > 0 && setPrevented(prevented + 1) 
+        
+                        SetTotalAfterCopon((Total * doc.data().value)/100)
+    
                         }
                       })
                    
                 }
               })
-          
-    
-
-    
       }, [User,Total])
 
       const handleSubmit = event => {
@@ -132,7 +130,7 @@ function OrderSummary() {
        
                    if (doc.exists) {
                      console.log(doc.data().value)
-                     setTotal((Total * doc.data().value)/100)
+                     SetTotalAfterCopon((Total * doc.data().value)/100)
                    }
                  })
 
@@ -160,7 +158,7 @@ function OrderSummary() {
                     <span>Subtotal (<span><span>2</span> items)</span></span>
                 </div>
                 <div className="OrderSummary__subtotal__subtotal__price">
-                             <span>AED <span>{ Total }</span></span>
+                             <span>AED <span>{TotalAfterCopon ? TotalAfterCopon : Total }</span></span>
                 </div>
             </div>
             <div className="OrderSummary__subtotal__shipping">

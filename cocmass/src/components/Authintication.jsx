@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import "../css/Authintication.css"
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
-import { auth } from '../backend/firebase';
+import { auth, db } from '../backend/firebase';
 
 
 function Authintication() {
@@ -34,6 +34,9 @@ function Authintication() {
                 auth.user.updateProfile({
                   displayName: Fname +Lname})
                   console.log(auth.user)
+                  db.collection("users").doc(auth.user.uid).set({
+                    code: "undefined"
+                })
               // ...
             })
             .catch((error) => {
@@ -45,6 +48,9 @@ function Authintication() {
         .signInWithEmailAndPassword(Email,Password)
         .then((auth)=>{
           console.log(auth.user.uid)
+          db.collection("users").doc(auth.user.uid).set({
+            code: "undefined"
+        })
         }
           )
 

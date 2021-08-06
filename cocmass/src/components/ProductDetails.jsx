@@ -104,10 +104,13 @@ function ProductDetails({id, title, image, body1,body2, price}) {
                   auth.signInAnonymously()
                 .then((auth) => {
                   console.log("done")
-                  console.log(auth.user)
+                  console.log(auth.user.uid)
                   setUser(auth.user)
                   console.log(User)
                   updateBasket(auth.user)
+                  db.collection("users").doc(auth.user.uid).set({
+                    code: "undefined"
+                })
                    
                 }).then(setConfirm(true))
                 .catch((error) => {
