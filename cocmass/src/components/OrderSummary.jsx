@@ -15,7 +15,7 @@ function OrderSummary() {
     const [subTotal, setSubTotal] = useState([])
     const [snapshots, setSnapshots] = useState();
     const [Total, setTotal] = useState(0)
-    const [TotalAfterCopon, SetTotalAfterCopon] = useState(undefined)
+    const [DiscountValue, SetDiscountValue] = useState(0)
     const [TRY, setTRY] = useState()
     const [price, setPrice] = useState()
     const [User, setUser] = useState()
@@ -105,7 +105,7 @@ function OrderSummary() {
             
                         if (doc.exists) {
         
-                        SetTotalAfterCopon((Total * doc.data().value)/100)
+                        SetDiscountValue((Total * doc.data().value)/100)
     
                         }
                       })
@@ -114,7 +114,7 @@ function OrderSummary() {
               })
       }, [User,Total])
 
-      const handleSubmit = event => {
+      const applyCoupon = event => {
         event.preventDefault(); 
         db.collection("codes").doc(document.getElementById("coupon").value).get()
         .then((doc) => {
@@ -130,7 +130,7 @@ function OrderSummary() {
        
                    if (doc.exists) {
                      console.log(doc.data().value)
-                     SetTotalAfterCopon((Total * doc.data().value)/100)
+                     SetDiscountValue((Total * doc.data().value)/100)
                    }
                  })
 
@@ -140,6 +140,19 @@ function OrderSummary() {
         }})      
     
       };
+ 
+      const removeCoupon = event =>{
+        event.preventDefault(); 
+        db.collection("users").doc(User.uid).set({
+            code : "undefined"
+        }).then(
+            SetDiscountValue(0),
+            setCoupon(),
+            setDisabled(false),
+            document.getElementById("coupon").value = ""
+        )
+
+      }
 
     
     return (
@@ -148,8 +161,8 @@ function OrderSummary() {
             <h3>Order Summary</h3>
             <div className="orderSummary__cupon">
                 <form>
-                    <input id="coupon" type="text" placeholder={!Coupon ? "Cupon code or Gift card" : Coupon} value={Coupon} disabled={disabled} />
-                    <button onClick={handleSubmit}>{!Coupon ? "APPLY CUPON" : "Remove coupon"}</button>
+                    <input id="coupon" type="text"style={ Coupon &&{ cursor: "pointer"}} placeholder={!Coupon ? "Cupon code or Gift card" : Coupon} value={Coupon} disabled={disabled} />
+                    <button onClick={!Coupon ? applyCoupon : removeCoupon}>{!Coupon ? "APPLY CUPON" : "Remove coupon"}</button>
                 </form>
             </div>
             <div className="OrderSummary__subtotal">
@@ -158,9 +171,18 @@ function OrderSummary() {
                     <span>Subtotal (<span><span>2</span> items)</span></span>
                 </div>
                 <div className="OrderSummary__subtotal__subtotal__price">
-                             <span>AED <span>{TotalAfterCopon ? TotalAfterCopon : Total }</span></span>
+                             <span>AED <span>{Total}</span></span>
                 </div>
             </div>
+            {DiscountValue > 0 && <div className="OrderSummary__subtotal__discount">
+                <div className="OrderSummary__subtotal__discount__text">
+                    <span>Discount</span>
+                </div>
+                <div className="OrderSummary__subtotal__discount__price">
+                    <span>- AED <span>{DiscountValue}</span></span>
+                </div>
+                
+            </div>}
             <div className="OrderSummary__subtotal__shipping">
                 <div className="OrderSummary__subtotal__shipping__text">
                     <span>Shipping</span>
@@ -177,7 +199,7 @@ function OrderSummary() {
                 <h3>Total </h3><small>(Inclusive of VAT)</small>
                 </div>
                 <div className="OrderSummary__Total__price">
-                    <h3> AED <span>{ Total + 30}</span></h3>
+                    <h3> AED <span>{ Total - DiscountValue + 30}</span></h3>
                 </div>
             </div>
         </div>

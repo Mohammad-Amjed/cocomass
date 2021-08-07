@@ -67,7 +67,7 @@ function Checkout() {
                     
                                 if (doc.exists) {
                             
-                                setTotal(num*doc.data().value / 100)
+                                setTotal(num - num*doc.data().value / 100)
                                 
                                 }else{
                                     setTotal(num)

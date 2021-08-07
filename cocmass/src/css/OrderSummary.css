@@ -14,7 +14,7 @@
 
 ::placeholder {
   font-size: 1.2rem;
-  color: #e5e5e5;
+  color: #c0bebe;
 }
 input:focus,
 textarea:focus,
@@ -58,6 +58,15 @@ a {
   display: flex;
   justify-content: space-between;
 }
+
+.OrderSummary__subtotal__discount {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-weight: 550;
+  color: darkgreen;
+}
 .OrderSummary__subtotal__shipping {
   display: flex;
   justify-content: space-between;
@@ -86,3 +95,13 @@ a {
 .basket__button:hover {
   background-color: rgba(187, 170, 127, 0.8);
 }
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;}
