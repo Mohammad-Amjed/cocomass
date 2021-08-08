@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import Modal from 'react-modal';
 import { auth, db } from '../backend/firebase'
 import "../css/OrderSummary.css"
 
 import firebase from "firebase/app";
 import "firebase/firestore";
+import CheckoutAuthintication from './CheckoutAuthintication';
 
 
 function OrderSummary() {
@@ -21,6 +23,7 @@ function OrderSummary() {
     const [User, setUser] = useState()
     const [prevented, setPrevented] = useState(0)
     const [disabled, setDisabled] = useState(false)
+    const [ModalIsOpen, setModalIsOpen] = useState(false)
     useEffect(() => {
       auth.onAuthStateChanged((authUser) => {
          
@@ -154,6 +157,27 @@ function OrderSummary() {
 
       }
 
+      const OpenModal = ()=> {
+        setModalIsOpen(true)
+
+    }
+        const closeModal = ()=> {
+        setModalIsOpen(false)
+    }
+
+    const customStyles = {
+        content : {
+          top                   : '50%',
+          left                  : '50%',
+          right                 : 'auto',
+          bottom                : 'auto',
+          marginRight           : '-50%',
+          transform             : 'translate(-50%, -50%)',
+          padding               : "0",
+          borderRadius          : "10px"
+        },
+        overlay: {zIndex: 1000}
+      };
     
     return (
         <div className="basket">
@@ -204,7 +228,11 @@ function OrderSummary() {
             </div>
         </div>
         <div className="basket__button">
-            <Link to="./checkOut" > Proceed to checkout</Link>
+            {/* <Link to="./checkOut" > Proceed to checkout</Link> */}
+            <Link onClick={OpenModal} > Proceed to checkout</Link>
+            <Modal   isOpen={ModalIsOpen} onRequestClose={closeModal} style={customStyles}>
+                        <CheckoutAuthintication />
+                     </Modal>
         </div>
         </div>
     )

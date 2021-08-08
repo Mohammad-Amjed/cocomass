@@ -83,7 +83,7 @@ useEffect(() => {
         {items.length !== 0 ? <div className="cart">
             <div className="cart__items">
                 <div className="cart__items__title">
-                    <h3>Shoping Basket</h3>
+                    <h3>Shoping Basket (Cant read "code" of undefined)</h3>
                 </div>
                 <div className="cart__items__item">
      { items && items.map((item) => 
