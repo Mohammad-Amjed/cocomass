@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link , useHistory } from 'react-router-dom'
 import firebase from "firebase"
 import "../css/Authintication.css"
@@ -15,6 +15,15 @@ function CheckoutAuthintication() {
     const [Password, setPassword] = useState()
     const [Fname, setFname] = useState()
     const [Lname, setLname] = useState()
+    const [User, setUser] = useState()
+    const [TempBasket, setTempBasket] = useState()
+    useEffect(() => {
+      auth.onAuthStateChanged((authUser) => {
+         
+          setUser(authUser)
+      })
+     
+  }, [])
     const showPassword = ()=>{
         if (Type ==="password"){
             setType("text")
@@ -26,7 +35,7 @@ function CheckoutAuthintication() {
     }
 
    const history =  useHistory()
-    const  signIn = ()=>{
+    const  signIn = async ()=>{
         if (Create){
           const credential = firebase.auth.EmailAuthProvider.credential(Email, Password);
           const currentUser = firebase.auth().currentUser;
@@ -40,13 +49,48 @@ function CheckoutAuthintication() {
             });
           }
         }else{
+          const result = User && await db.collection("users").doc(User.uid).collection("basket").get();
+          const items_array = [];
+          result.docs.forEach((doc)=>{
+            items_array.push(doc.data());
+          });
+          // setTempBasket(items_array);
+          console.log(items_array);
+        
+
+     
         auth
         .signInWithEmailAndPassword(Email,Password)
         .then((auth)=>{
           console.log(auth.user.uid)
-          db.collection("users").doc(auth.user.uid).set({
-            code: "undefined"
-        })
+          const batch = db.batch();
+          const userBasketColRef = db
+            .collection("users")
+            .doc(auth.user.uid)
+            .collection("basket");
+          
+          items_array.forEach(item => {
+            batch.set(
+              userBasketColRef.doc(item.id), // <- use the item ID as the document ID
+              {
+                id: item.id,
+                quantity: firebase.firestore.FieldValue.increment(item.quantity)
+              },
+              { merge: true }
+            );
+          });
+          
+          batch.commit()
+            .then(() => console.log('Updated basket successfully!'),
+            history.push("./checkOut"))
+            .catch((err) => console.error('Failed to update basket'));
+          // items_array.forEach((doc)=>{
+          //   db.collection("users").doc(auth.user.uid).collection("basket").add({
+          //    id: doc.id,
+          //    quantity: doc.quantity
+          //   })
+          // })
+
         }
           )
 
