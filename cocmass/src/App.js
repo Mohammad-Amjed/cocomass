@@ -8,6 +8,7 @@ import Cart from './components/Cart'
 import Checkout from './components/Checkout'
 import { auth, db } from './backend/firebase'
 import Nav from './components/Nav'
+import Orders from './components/Orders'
 // import { useLocation  } from "react-router-dom";
 
 function App() {
@@ -49,6 +50,9 @@ function App() {
        </Route>
        <Route path="/checkout">
          <Checkout />
+       </Route>
+       <Route path="/orders">
+         <Orders />
        </Route>
     </Router>
   )

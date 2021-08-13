@@ -229,7 +229,7 @@ function OrderSummary() {
         </div>
         <div className="basket__button">
             {/* <Link to="./checkOut" > Proceed to checkout</Link> */}
-            <Link onClick={OpenModal} > Proceed to checkout</Link>
+            {User && User.isAnonymous ?  <Link onClick={OpenModal} > Proceed to checkout</Link> :<Link to="./checkOut" > Proceed to checkout</Link>  }
             <Modal   isOpen={ModalIsOpen} onRequestClose={closeModal} style={customStyles}>
                         <CheckoutAuthintication />
                      </Modal>

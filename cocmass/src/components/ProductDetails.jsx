@@ -167,7 +167,7 @@ function ProductDetails({id, title, image, body1,body2, price}) {
             <div className="productDetails__right">
                 <div className="productDetails__right__container">
                 <div className="productDetails__right__title">
-                    <h2>{title}</h2>
+                    <h2>{title} Check doc.exists</h2>
                 </div>
                 <div className="productDetails__right__price">
                     <h2>{price} AED</h2>

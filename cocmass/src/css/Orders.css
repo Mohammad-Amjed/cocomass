@@ -1,0 +1,20 @@
+
+.orders {
+    display: flex;
+    margin-top:100px;
+}
+
+.orders__sidebar {
+    flex: 0.25;
+}
+.orders__content {
+    flex: 0.75;
+}
+
+.orders__content__title {
+    padding-top: 20px;
+    padding-bottom: 20px;
+} 
+.orders__content__title h3 {
+    margin-bottom: 5px;
+}

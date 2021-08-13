@@ -89,7 +89,7 @@ function Nav() {
             </div>
             <div className="nav__navContent__userInfo">
                 <ul id="nm-main-menu-ul" className="nm-menu">
-                {User ?   <li className="logIn" onClick={logout}>
+                {User && !User.isAnonymous ?   <li className="logIn" onClick={logout}>
                     Log out
                     </li> :   <li className="logIn" onClick={OpenModal}>
                         Log In

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import emailjs from 'emailjs-com';
 import { Link } from 'react-router-dom'
 import { auth, db, timestamp } from '../backend/firebase'
 import "../css/Checkout.css"
@@ -138,7 +139,9 @@ function Checkout() {
 
             }, [items])
 
-    const handleSubmit = ()=>{
+    const handleSubmit = (e)=>{
+        e.preventDefault();
+
        User && db.collection("users").doc(User.uid).collection("info").doc("address").set({
             Fname,
             Lname,
@@ -157,8 +160,16 @@ function Checkout() {
                     doc.ref.delete()
                 });
                 }).then(console.log("done 2"))
-        )
+        ).then(
         
+        emailjs.sendForm('service_vfb8sdj', 'contact_form', e.target, 'user_a0kajKqW2OgKvEfUtbcxw')
+      .then((result) => {
+          console.log(result.text);
+      }, (error) => {
+          console.log(error.text);
+      })).then(console.log("doneeeeeeeeeeeeee"))
+
+
     }
 
     
@@ -176,13 +187,13 @@ function Checkout() {
                     <span className="checkout__address__details__name__element">
                         <label for="billing_first_name" class="">First name</label>
                         <span className="checkout__address__details__name__element__input">
-                             <input className="checkout__address__details__info__element__input__element" type="text" placeholder="" value={Fname} onChange={e=>setFname(e.target.value)}/>
+                             <input className="checkout__address__details__info__element__input__element" type="text" placeholder="" value={Fname} onChange={e=>setFname(e.target.value)} name="name"/>
                         </span>
                    </span>
                    <span className="checkout__address__details__name__element">
                         <label for="billing_first_name" class="">Last name</label>
                         <span className="checkout__address__details__name__element__input">
-                             <input className="checkout__address__details__info__element__input__element" type="text" placeholder="" value={Lname} onChange={e=>setLname(e.target.value)}/>
+                             <input className="checkout__address__details__info__element__input__element" type="text" placeholder="" value={Lname} onChange={e=>setLname(e.target.value)} name="email"/>
                         </span>
                    </span>
                   </div>

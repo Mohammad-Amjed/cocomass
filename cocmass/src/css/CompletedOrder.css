@@ -1,0 +1,13 @@
+
+.completedOrder{
+    padding: 15px 0 0 10px;
+    border: 1px solid black;
+    margin: 10px 30px 0 0;
+}
+.completedOrder__title {
+    display: flex;
+}
+.completedOrder__title h4 {
+    margin-right: 7px;
+    color: rgb(56, 102, 223)
+}
