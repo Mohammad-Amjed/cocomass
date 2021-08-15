@@ -7,7 +7,7 @@ import "../css/CompletedOrder.css"
 
 function CompletedOrder() {
     const [User, setUser] = useState()
-    const [items, setItems] = useState([]);
+    const [items, setItems] = useState();
     const [snapshots, setSnapshots] = useState();
 
     useEffect(() => {
@@ -17,15 +17,18 @@ function CompletedOrder() {
       })
      
   }, [])
-    useEffect(()=> {
+    useEffect( ()=> {
         let cancelled = false;
-        User && db.collection("users").doc(User.uid).collection("info").doc("orders").collection("ordersDetails").get()
-        .then(   (snapshot) => {
+        User &&  db.collection("users").doc(User.uid).collection("info").doc("orders").collection("ordersDetails").get()
+        .then(  (snapshot) => {
             // *** Don't try to set state if we've been unmounted in the meantime
             if (!cancelled) {
+                // snapshot.docs.map(doc => {console.log(doc.data().total)})
                 setSnapshots(snapshot.docs);
                 // *** Create `items` **once** when you get the snapshots
+                // const res = await snapshot;
                 setItems(snapshot.docs.map(doc => doc.data()));
+
             }
         })
      
@@ -44,11 +47,18 @@ function CompletedOrder() {
             cancelled = true;
         };
     }, [User]);
+     let items_array = []
+     let item_array = []
+     items && items.map(docs=>{ 
+         items_array.push(docs.items)
+         
+        // docs.items.map(item => {console.log(item.id)});
+        
+        })
 
-   items && items.map(doc=>{
-       
-        console.log(doc.price)
-    })
+    item_array.forEach(doc=>item_array.push(doc));
+    console.log(item_array)
+
     return (
         <div className="completedOrder">
             <div className="completedOrder__title">
@@ -56,9 +66,9 @@ function CompletedOrder() {
                 <span>Placed on Nov 17, 2020</span>
             </div>
             <div className="completedOrder__content">
-               {  items.map((item) => 
-              
-                <OrderItem price={item.price} image={item.image} title={item.title} quantity={item.quantity} id={item.id} placed/> )/* *** Or whatever renders ID  */}
+               { items_array  && items_array.map((item) => 
+                  
+                <OrderItem price={item.price} image={item.image} title={item.title} quantity={item.quantity} id={item.id} placed/> )}
             </div>
         </div>
     )
