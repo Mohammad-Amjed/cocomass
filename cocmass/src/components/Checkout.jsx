@@ -18,6 +18,7 @@ function Checkout() {
     const [updateItem, setUpdateItem] = useState()
     const [subTotal, setSubTotal] = useState([]);
     const [Total, setTotal] = useState(0);
+    const [SubTotalValue, setubTotalValue] = useState(0);
     const CreatedAt = timestamp();
     const [User, setUser] = useState()
     useEffect(() => {
@@ -67,7 +68,7 @@ function Checkout() {
                             .then((doc) => {
                     
                                 if (doc.exists) {
-                            
+                                    setubTotalValue(num)
                                 setTotal(num - num*doc.data().value / 100)
                                 
                                 }else{
@@ -151,9 +152,12 @@ function Checkout() {
             Mobile
         }).then(console.log("done"))
              db.collection("users").doc(User.uid).collection("info").doc("orders").collection("ordersDetails").doc().set({
-            total : Total + 30,
-            items,
-            CreatedAt
+                subTotal : SubTotalValue,
+                discount : Total - SubTotalValue,
+                shipping : 30,                
+                total : Total + 30,
+                items,
+                CreatedAt
         }).then(
             db.collection("users").doc(User.uid).collection("basket").get().then(function(querySnapshot) {
                 querySnapshot.forEach(function(doc) {

@@ -11,3 +11,12 @@
     margin-right: 7px;
     color: rgb(56, 102, 223)
 }
+.completedOrder__content {
+    display: flex;
+}
+.completedOrder__content__items {
+    flex: 0.8
+}
+.completedOrder__content__payment {
+    flex: 0.2
+}

@@ -45,6 +45,14 @@ function OrderDetails({total}) {
                 <p className="price"> {30} Dhs </p>  
             </div>
             <div className="orderDetails__detail">
+            <p className="text">Shipping </p>
+                <p className="price"> {30} Dhs </p>  
+            </div>
+            <div className="orderDetails__detail">
+            <p className="text">Shipping </p>
+                <p className="price"> {30} Dhs </p>  
+            </div>
+            <div className="orderDetails__detail">
             <p className="text">Total</p>
                 <p className="price">{total + 30} Dhs</p>  
             </div>

@@ -56,10 +56,13 @@ function Orders() {
                 <div className="orders__content__title">
                     <h2>Orders</h2>
                     <span>See how your orders are managed and check the last status on your order</span> 
-                    { items && items.map((item) => 
+                    </div>
+                    <div className="orders__content__products">
+                    { items && items.map((products) => 
                 
-                <CompletedOrder /> )/* *** Or whatever renders ID  */}
+                <CompletedOrder items={products}  /> )/* *** Or whatever renders ID  */}
                 </div>
+                
             </div>
         </div>
     )
