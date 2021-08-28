@@ -1,8 +1,10 @@
 
 .completedOrder{
-    padding: 15px 0 0 10px;
+    padding-top:5px;
     border: 1px solid black;
-    margin: 10px 30px 0 0;
+    margin: 0 30px 10px 0;
+    display: flex;
+    justify-content:space-between;
 }
 .completedOrder__title {
     display: flex;
@@ -15,8 +17,13 @@
     display: flex;
 }
 .completedOrder__content__items {
+    flex: 1;
+}
+.completedOrder__wrap {
+    padding: 10px 0 0 10px;
     flex: 0.8
 }
-.completedOrder__content__payment {
-    flex: 0.2
+.completedOrder__payment {
+    flex: 0.2;
+    
 }

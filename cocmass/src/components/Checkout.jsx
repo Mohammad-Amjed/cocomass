@@ -151,27 +151,42 @@ function Checkout() {
             ArdressTwo,
             Mobile
         }).then(console.log("done"))
-             db.collection("users").doc(User.uid).collection("info").doc("orders").collection("ordersDetails").doc().set({
+           SubTotalValue != 0 ?  db.collection("users").doc(User.uid).collection("info").doc("orders").collection("ordersDetails").doc().set({
                 subTotal : SubTotalValue,
                 discount : Total - SubTotalValue,
                 shipping : 30,                
                 total : Total + 30,
                 items,
                 CreatedAt
-        }).then(
+        }) .then(
             db.collection("users").doc(User.uid).collection("basket").get().then(function(querySnapshot) {
                 querySnapshot.forEach(function(doc) {
                     doc.ref.delete()
                 });
                 }).then(console.log("done 2"))
-        ).then(
+        ) : 
+        db.collection("users").doc(User.uid).collection("info").doc("orders").collection("ordersDetails").doc().set({
+            subTotal : Total,
+            discount : 0,
+            shipping : 30,                
+            total : Total + 30,
+            items,
+            CreatedAt
+    }) .then(
+            db.collection("users").doc(User.uid).collection("basket").get().then(function(querySnapshot) {
+                querySnapshot.forEach(function(doc) {
+                    doc.ref.delete()
+                });
+                }).then(console.log("done 2"))
+        )
+    //     .then(
         
-        emailjs.sendForm('service_vfb8sdj', 'contact_form', e.target, 'user_a0kajKqW2OgKvEfUtbcxw')
-      .then((result) => {
-          console.log(result.text);
-      }, (error) => {
-          console.log(error.text);
-      })).then(console.log("doneeeeeeeeeeeeee"))
+    //     emailjs.sendForm('service_vfb8sdj', 'contact_form', e.target, 'user_a0kajKqW2OgKvEfUtbcxw')
+    //   .then((result) => {
+    //       console.log(result.text);
+    //   }, (error) => {
+    //       console.log(error.text);
+    //   })).then(console.log("doneeeeeeeeeeeeee"))
 
 
     }
@@ -247,7 +262,7 @@ function Checkout() {
             <div className="checkout__placeOrder">
                 {console.log(items)}
                 <div className="checkout__placeOrder__OrderDetails">
-                    <OrderDetails total={Total} />
+                    <OrderDetails subTotal={Total} total={Total + 30} shipping={30} />
                  </div>
                  <div className=" checkout__placeOrder basket__button">
                     <Link onClick={handleSubmit}> Place Order</Link>

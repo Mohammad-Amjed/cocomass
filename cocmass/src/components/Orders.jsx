@@ -18,7 +18,7 @@ function Orders() {
   }, [])
     useEffect(()=> {
         let cancelled = false;
-        User && db.collection("users").doc(User.uid).collection("info").doc("orders").collection("ordersDetails").get()
+        User && db.collection("users").doc(User.uid).collection("info").doc("orders").collection("ordersDetails").orderBy("items", "desc").get()
         .then(   (snapshot) => {
             // *** Don't try to set state if we've been unmounted in the meantime
             if (!cancelled) {
@@ -47,7 +47,7 @@ function Orders() {
 
     // ***  get from the database ***** //
 
-    console.log(items)
+    items && items.map((products) => console.log(products.items.length));
 
     return (
         <div className="orders">
@@ -60,7 +60,7 @@ function Orders() {
                     <div className="orders__content__products">
                     { items && items.map((products) => 
                 
-                <CompletedOrder items={products}  /> )/* *** Or whatever renders ID  */}
+                <CompletedOrder items={products} length={products.items.length} /> )/* *** Or whatever renders ID  */}
                 </div>
                 
             </div>
