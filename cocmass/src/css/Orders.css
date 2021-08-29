@@ -1,20 +1,19 @@
 
 .orders {
     display: flex;
-    padding-top:100px;
+    padding: 120px 150px 0 150px;
     background-color: #fbfafa;
     min-height:80vh;
 }
 
 .orders__sidebar {
-    flex: 0.25;
+    flex: 0.2;
 }
 .orders__content {
-    flex: 0.75;
+    flex: 0.8;
 }
 
 .orders__content__title {
-    padding-top: 20px;
     padding-bottom: 20px;
 } 
 .orders__content__title h3 {

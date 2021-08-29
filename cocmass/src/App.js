@@ -54,6 +54,12 @@ function App() {
        <Route path="/orders">
          <Orders />
        </Route>
+       <Route path="/address">
+         <Orders />
+       </Route>
+        <Route path="/profile">
+          <Orders />
+          </Route>
     </Router>
   )
 }

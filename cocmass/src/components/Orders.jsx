@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { auth, db } from '../backend/firebase';
 import "../css/Orders.css"
 import CompletedOrder from './CompletedOrder'
+import SideBar from './SideBar';
 
 
 function Orders() {
@@ -51,7 +52,9 @@ function Orders() {
 
     return (
         <div className="orders">
-            <div className="orders__sidebar"></div>
+            <div className="orders__sidebar">
+                <SideBar />
+            </div>
             <div className="orders__content">
                 <div className="orders__content__title">
                     <h2>Orders</h2>

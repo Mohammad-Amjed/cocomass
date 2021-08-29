@@ -1,0 +1,39 @@
+.sideBar {
+    padding-right: 50px;
+}
+.sideBar h3 {
+    padding-bottom: 10px;
+}
+.sideBar a {
+    paddinng-bottom:20px;
+}
+.sidebar__title { 
+    padding-bottom: 20px;
+    border-bottom: 1px solid #000;
+
+}
+.sideBar__links { 
+    margin-top: 20px;
+}
+.sideBar__links a { 
+    display: block;
+    width: calc(100% - 10px);
+    font-weight: bold;
+    padding: 15px 0 15px 10px;
+    display: flex;
+    align-items: flex-end;
+    
+   
+}
+.sideBar__links a:hover {
+    background-color: #fff;
+    box-shadow: rgb(173 193 207 / 25%) 0px 2px 10px 0px;
+}
+.active {
+    background-color: #fff;
+    box-shadow: rgb(173 193 207 / 25%) 0px 2px 10px 0px;
+}
+.sideBar__links span {
+    display: inline-block;
+    padding-left: 10px;
+}
