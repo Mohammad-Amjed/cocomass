@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import emailjs from 'emailjs-com';
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { auth, db, timestamp } from '../backend/firebase'
 import "../css/Checkout.css"
 import OrderDetails from './OrderDetails'
 import OrderItem from './OrderItem'
+import uniqid from 'uniqid';
 
 
 function Checkout() {
@@ -21,6 +22,7 @@ function Checkout() {
     const [SubTotalValue, setubTotalValue] = useState(0);
     const CreatedAt = timestamp();
     const [User, setUser] = useState()
+    const history =  useHistory()
     useEffect(() => {
       auth.onAuthStateChanged((authUser) => {
          
@@ -157,13 +159,19 @@ function Checkout() {
                 shipping : 30,                
                 total : Total + 30,
                 items,
+                id : uniqid("COMS00").toUpperCase(),
                 CreatedAt
         }) .then(
             db.collection("users").doc(User.uid).collection("basket").get().then(function(querySnapshot) {
                 querySnapshot.forEach(function(doc) {
                     doc.ref.delete()
                 });
-                }).then(console.log("done 2"))
+                }).then(
+                    db.collection("users").doc(User.uid).set({
+                        code : "undefined"
+                    }), 
+                    history.push("./orders") 
+                ).then(console.log("done 2"))
         ) : 
         db.collection("users").doc(User.uid).collection("info").doc("orders").collection("ordersDetails").doc().set({
             subTotal : Total,
@@ -171,13 +179,15 @@ function Checkout() {
             shipping : 30,                
             total : Total + 30,
             items,
+            id : uniqid("COMS00").toUpperCase(),
             CreatedAt
     }) .then(
             db.collection("users").doc(User.uid).collection("basket").get().then(function(querySnapshot) {
                 querySnapshot.forEach(function(doc) {
                     doc.ref.delete()
-                });
-                }).then(console.log("done 2"))
+                })
+                }, 
+                history.push("./orders") ).then(console.log("done 2"))
         )
     //     .then(
         

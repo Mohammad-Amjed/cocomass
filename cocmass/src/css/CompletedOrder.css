@@ -1,10 +1,11 @@
 
 .completedOrder{
     padding-top:5px;
-    border: 1px solid black;
+    background-color: #fff;
     margin: 0 30px 10px 0;
     display: flex;
     justify-content:space-between;
+    box-shadow: rgb(175 130 130 / 20%) 0px 10px 20px -6px;
 }
 .completedOrder__title {
     display: flex;

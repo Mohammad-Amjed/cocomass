@@ -1,18 +1,17 @@
 .completeOrder {
     margin-left:-25px;
-    background-color: #f8f8f8;
+    border-left: 1px solid #e4e2e2;
 }
-.completeOrderDetails  {
-
-    /* padding-bottom:calc(100% - 171px); */
+#completeOrder__title  {
+    text-transform: uppercase;
+    padding: 5px 0 0px 6px;
 }
 .completeOrder__detail {
     display: flex;
     justify-content: space-between;
-    padding: 2px 7px 2px 2px;
+    padding: 2px 7px;
 }
 .completePayingMethod { 
-    /* width: 100%; */
     text-align: center;
     padding: 5px 10px;
     background-color: lightgrey;

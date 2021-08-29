@@ -8,12 +8,13 @@ import OrderDetails from './OrderDetails'
 
 function CompletedOrder({items , length}) {
 console.log(items.subTotal)
+const options = {year: 'numeric', month: 'long', day: 'numeric' };
     return (
         <div className="completedOrder">
             <div className="completedOrder__wrap">
             <div className="completedOrder__title">
-                <h4>ORDER NAECB0033208198</h4> 
-                <span>Placed on Nov 17, 2020</span>
+                <h4>ORDER {items.id}</h4> 
+                <span>Placed on {items.CreatedAt.toDate().toLocaleDateString(undefined, options)}</span>
             </div>
             <div className="completedOrder__content">
                 <div className="completedOrder__content__items">

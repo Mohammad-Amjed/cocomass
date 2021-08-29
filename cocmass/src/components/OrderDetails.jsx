@@ -8,11 +8,17 @@ import OrderItem from './OrderItem'
 
 function OrderDetails({total ,subTotal, shipping, discount, complete, length}) {
     let margin;
+    let bottomMargin;
     if( length ===1) {
-        margin =15;
+        margin =13;
+        bottomMargin =9;
     }else if (length ===2) { 
-        margin =17 * 2
-    }else {margin = 21 * 3}
+        margin =20;
+        bottomMargin =30;
+    }else {
+        margin = 43;
+        bottomMargin= 47.5;
+    }
     console.log("the length is " +  length)
     // const [Total, setTotal] = useState(total)
 
@@ -43,8 +49,10 @@ function OrderDetails({total ,subTotal, shipping, discount, complete, length}) {
     // }, [User,total])
     return (
         <div className={!complete ? "order" : "completeOrder"}>
+           { complete && <div id="completeOrder__title" style={{marginBottom: bottomMargin+ "px"}}>
+               <h4>Order Summary</h4></div>}
             <div className={!complete ? "orderDetails" : "completeOrderDetails"}>
-            <div className={!complete ? "orderDetails__detail" : "completeOrder__detail"} style={{marginBottom: margin+ "px"}}>
+            <div className={!complete ? "orderDetails__detail" : "completeOrder__detail"} style={complete && {marginBottom: margin+ "px"}}>
                 <p className={!complete ? "text" : "completeText"}>Subtotal</p>
                 <p className={!complete ? "price" : "completePrice"}> {subTotal} Dhs </p>  
             </div>
@@ -52,11 +60,11 @@ function OrderDetails({total ,subTotal, shipping, discount, complete, length}) {
             <p className={!complete ? "text" : "completeText"}>Discount </p>
                 <p className={!complete ? "price" : "completePrice"}> {discount} Dhs </p>  
             </div>}
-            <div className={!complete ? "orderDetails__detail" : "completeOrder__detail"}  style={{marginBottom: margin+ "px"}}>
+            <div className={!complete ? "orderDetails__detail" : "completeOrder__detail"}  style={complete &&{marginBottom: margin+ "px"}}>
             <p className={!complete ? "text" : "completeText"}>Shipping </p>
                 <p className={!complete ? "price" : "completePrice"}> {shipping} Dhs </p>  
             </div>
-            <div className={!complete ? "orderDetails__detail" : "completeOrder__detail"}  style={{marginBottom: margin+ "px"}}>
+            <div className={!complete ? "orderDetails__detail" : "completeOrder__detail"}  style={complete &&{marginBottom: margin+ "px"}}>
             <p className={!complete ? "text" : "completeText"}>Total</p>
                 <p className={!complete ? "price" : "completePrice"}>{total} Dhs</p>  
             </div>
