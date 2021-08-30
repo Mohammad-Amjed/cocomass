@@ -9,6 +9,7 @@ import Checkout from './components/Checkout'
 import { auth, db } from './backend/firebase'
 import Nav from './components/Nav'
 import Orders from './components/Orders'
+import Address from './components/Address'
 // import { useLocation  } from "react-router-dom";
 
 function App() {
@@ -55,7 +56,7 @@ function App() {
          <Orders />
        </Route>
        <Route path="/address">
-         <Orders />
+         <Address />
        </Route>
         <Route path="/profile">
           <Orders />

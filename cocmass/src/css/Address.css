@@ -1,0 +1,27 @@
+.address {
+    display: flex;
+    padding: 120px 150px 0 150px;
+    background-color: #fbfafa;
+    min-height:80vh;
+}
+.address__sideBar {
+    flex:0.2;
+}
+.address__content {
+    flex:0.8;
+}
+
+.address__content__button {
+    width:95%;
+    padding:50px 0;
+}
+.address__content__button.right {
+    text-align:right;
+}
+.address__content__button a {
+    font-weight: bold;
+    color: #fff;
+    padding: 20px;
+    background-color: #bbaa7f;
+}
+/* :disabled {background-color:rgb(235,235,228)}; */
