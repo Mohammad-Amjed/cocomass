@@ -1,0 +1,32 @@
+.profile__card {
+    margin:20px 0 30px 0;
+    box-shadow: rgb(173 193 207 / 35%) 0px 1px 5px 2px;
+}
+.profile__card__title {
+    color: rgb(64, 69, 83);
+    background: rgb(241, 243, 250);
+    padding: 10px 15px;
+    font-size: 1.08333rem;
+    font-weight: 600;
+}
+.profile__card__content {
+    background-color: #fff;
+    padding: 15px 10px;
+    text-align: center;
+}
+.profile__card__content__button {
+    width:97.5%;
+    padding:30px 0 15px 0;
+    text-align: right;
+    text-transform: uppercase;
+}
+.profile__card__content__button a {
+    font-weight: bold;
+    color: #fff;
+    padding: 15px ;
+    background-color: #bbaa7f;
+}
+.billing_first_name {
+    text-align: left;
+    padding-left: 5% !important;
+}

@@ -32,7 +32,7 @@ function Authintication() {
               // Signed in 
                           
                 auth.user.updateProfile({
-                  displayName: Fname +Lname})
+                  displayName: Fname + " " +Lname})
                   console.log(auth.user)
                   db.collection("users").doc(auth.user.uid).set({
                     code: "undefined"

@@ -42,11 +42,17 @@ function CheckoutAuthintication() {
           if (currentUser) {
             currentUser.linkAndRetrieveDataWithCredential(credential).then((userCredential) => {
               const user = userCredential.user;
+              user.updateProfile({
+                displayName: Fname + " " +Lname})
+                console.log(user)
+                db.collection("users").doc(user.uid).set({
+                  code: "undefined"
+              })
               console.log("Account linking success", user);
               history.push("./checkOut")
             }, (error) => {
               console.log("Account linking error", error);
-            });
+            })           
           }
         }else{
           const result = User && await db.collection("users").doc(User.uid).collection("basket").get();

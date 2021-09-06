@@ -10,6 +10,7 @@ import { auth, db } from './backend/firebase'
 import Nav from './components/Nav'
 import Orders from './components/Orders'
 import Address from './components/Address'
+import Profile from './components/Profile'
 // import { useLocation  } from "react-router-dom";
 
 function App() {
@@ -59,7 +60,7 @@ function App() {
          <Address />
        </Route>
         <Route path="/profile">
-          <Orders />
+          <Profile />
           </Route>
     </Router>
   )
