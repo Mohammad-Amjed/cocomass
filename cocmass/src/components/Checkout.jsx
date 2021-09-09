@@ -202,11 +202,67 @@ function Checkout() {
     }
 
     
+    function sendEmail(e) {
+        e.preventDefault();
 
+        User && db.collection("users").doc(User.uid).collection("info").doc("address").set({
+             Fname,
+             Lname,
+             City,
+             ArdessOne,
+             ArdressTwo,
+             Mobile
+         }).then(console.log("done"))
+            SubTotalValue != 0 ?  db.collection("users").doc(User.uid).collection("info").doc("orders").collection("ordersDetails").doc().set({
+                 subTotal : SubTotalValue,
+                 discount : Total - SubTotalValue,
+                 shipping : 30,                
+                 total : Total + 30,
+                 items,
+                 id : uniqid("COMS00").toUpperCase(),
+                 CreatedAt
+         }) .then(
+             db.collection("users").doc(User.uid).collection("basket").get().then(function(querySnapshot) {
+                 querySnapshot.forEach(function(doc) {
+                     doc.ref.delete()
+                 });
+                 }).then(
+                     db.collection("users").doc(User.uid).set({
+                         code : "undefined"
+                     }), 
+                     history.push("./orders") 
+                 ).then(console.log("done 2"))
+         ) : 
+         db.collection("users").doc(User.uid).collection("info").doc("orders").collection("ordersDetails").doc().set({
+             subTotal : Total,
+             discount : 0,
+             shipping : 30,                
+             total : Total + 30,
+             items,
+             id : uniqid("COMS00").toUpperCase(),
+             CreatedAt
+     }) .then(
+             db.collection("users").doc(User.uid).collection("basket").get().then(function(querySnapshot) {
+                 querySnapshot.forEach(function(doc) {
+                     doc.ref.delete()
+                 })
+                 } ).then(console.log("done 2"))
+         )
+         .then(
+         
+            emailjs.sendForm('gmail', 'contact_form', e.target, 'user_a0kajKqW2OgKvEfUtbcxw')
+            .then((result) => {
+                console.log(result.text);
+            }, (error) => {
+                console.log(error.text);
+            })
+            )
+
+    }
 
 
     return (
-        <div className="checkout">
+        <form className="checkout" onSubmit={sendEmail}>
             <div className="checkout__address">
                 <div className="checkout__address__title">
                      <h2>BILLING DETAILS</h2>
@@ -274,12 +330,17 @@ function Checkout() {
                 <div className="checkout__placeOrder__OrderDetails">
                     <OrderDetails subTotal={Total} total={Total + 30} shipping={30} />
                  </div>
-                 <div className=" checkout__placeOrder basket__button">
-                    <Link onClick={handleSubmit}> Place Order</Link>
+                 
+                 <div className="checkout__placeOrder basket__button">
+                    {/* <Link onClick={handleSubmit}> Place Order</Link> */}
+              
+                            <input type="submit" value="Confirm Order"></input>
+      
                 </div>
+
             </div>
             
-        </div>
+        </form>
     )
 }
 
