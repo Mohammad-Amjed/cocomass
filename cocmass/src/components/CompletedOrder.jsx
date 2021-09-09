@@ -10,7 +10,7 @@ function CompletedOrder({items , length}) {
 console.log(items.subTotal)
 const options = {year: 'numeric', month: 'long', day: 'numeric' };
     return (
-        <div className="completedOrder">
+        <div className="completedOrder donePage">
             <div className="completedOrder__wrap">
             <div className="completedOrder__title">
                 <h4>ORDER {items.id}</h4> 

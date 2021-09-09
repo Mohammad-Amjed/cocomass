@@ -22,6 +22,7 @@ function Checkout() {
     const [SubTotalValue, setubTotalValue] = useState(0);
     const CreatedAt = timestamp();
     const [User, setUser] = useState()
+    const [id] = useState(uniqid("COSM00").toUpperCase());
     const history =  useHistory()
     useEffect(() => {
       auth.onAuthStateChanged((authUser) => {
@@ -142,69 +143,11 @@ function Checkout() {
 
             }, [items])
 
-    const handleSubmit = (e)=>{
-        e.preventDefault();
-
-       User && db.collection("users").doc(User.uid).collection("info").doc("address").set({
-            Fname,
-            Lname,
-            City,
-            ArdessOne,
-            ArdressTwo,
-            Mobile
-        }).then(console.log("done"))
-           SubTotalValue != 0 ?  db.collection("users").doc(User.uid).collection("info").doc("orders").collection("ordersDetails").doc().set({
-                subTotal : SubTotalValue,
-                discount : Total - SubTotalValue,
-                shipping : 30,                
-                total : Total + 30,
-                items,
-                id : uniqid("COMS00").toUpperCase(),
-                CreatedAt
-        }) .then(
-            db.collection("users").doc(User.uid).collection("basket").get().then(function(querySnapshot) {
-                querySnapshot.forEach(function(doc) {
-                    doc.ref.delete()
-                });
-                }).then(
-                    db.collection("users").doc(User.uid).set({
-                        code : "undefined"
-                    }), 
-                    history.push("./orders") 
-                ).then(console.log("done 2"))
-        ) : 
-        db.collection("users").doc(User.uid).collection("info").doc("orders").collection("ordersDetails").doc().set({
-            subTotal : Total,
-            discount : 0,
-            shipping : 30,                
-            total : Total + 30,
-            items,
-            id : uniqid("COMS00").toUpperCase(),
-            CreatedAt
-    }) .then(
-            db.collection("users").doc(User.uid).collection("basket").get().then(function(querySnapshot) {
-                querySnapshot.forEach(function(doc) {
-                    doc.ref.delete()
-                })
-                }, 
-                history.push("./orders") ).then(console.log("done 2"))
-        )
-    //     .then(
-        
-    //     emailjs.sendForm('service_vfb8sdj', 'contact_form', e.target, 'user_a0kajKqW2OgKvEfUtbcxw')
-    //   .then((result) => {
-    //       console.log(result.text);
-    //   }, (error) => {
-    //       console.log(error.text);
-    //   })).then(console.log("doneeeeeeeeeeeeee"))
-
-
-    }
 
     
     function sendEmail(e) {
         e.preventDefault();
-
+        console.log(id)
         User && db.collection("users").doc(User.uid).collection("info").doc("address").set({
              Fname,
              Lname,
@@ -219,7 +162,7 @@ function Checkout() {
                  shipping : 30,                
                  total : Total + 30,
                  items,
-                 id : uniqid("COMS00").toUpperCase(),
+                 id : id,
                  CreatedAt
          }) .then(
              db.collection("users").doc(User.uid).collection("basket").get().then(function(querySnapshot) {
@@ -229,9 +172,18 @@ function Checkout() {
                  }).then(
                      db.collection("users").doc(User.uid).set({
                          code : "undefined"
-                     }), 
-                     history.push("./orders") 
+                     })
                  ).then(console.log("done 2"))
+                 .then(
+         
+                    emailjs.sendForm('gmail', 'contact_form',e.target, 'user_a0kajKqW2OgKvEfUtbcxw')
+                    .then((result) => {
+                        console.log(result.text);
+                    }, (error) => {
+                        console.log(error.text);
+                    })
+                    )
+                    .then(history.push("/" + id),window.location.reload())
          ) : 
          db.collection("users").doc(User.uid).collection("info").doc("orders").collection("ordersDetails").doc().set({
              subTotal : Total,
@@ -239,7 +191,7 @@ function Checkout() {
              shipping : 30,                
              total : Total + 30,
              items,
-             id : uniqid("COMS00").toUpperCase(),
+             id : id,
              CreatedAt
      }) .then(
              db.collection("users").doc(User.uid).collection("basket").get().then(function(querySnapshot) {
@@ -247,16 +199,17 @@ function Checkout() {
                      doc.ref.delete()
                  })
                  } ).then(console.log("done 2"))
-         )
-         .then(
+                    .then(
          
-            emailjs.sendForm('gmail', 'contact_form',e.target, 'user_a0kajKqW2OgKvEfUtbcxw')
-            .then((result) => {
-                console.log(result.text);
-            }, (error) => {
-                console.log(error.text);
-            })
-            )
+                        emailjs.sendForm('gmail', 'contact_form',e.target, 'user_a0kajKqW2OgKvEfUtbcxw')
+                        .then((result) => {
+                            console.log(result.text);
+                        }, (error) => {
+                            console.log(error.text);
+                        })
+                        )
+                        .then(history.push("/" + id),window.location.reload())
+                    )
 
     }
 

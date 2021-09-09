@@ -1,0 +1,37 @@
+.PlacedOrder { 
+        padding: 120px 20% 0 20%;
+        background-color: #fbfafa;
+        min-height:80vh;
+        justify-content: center;
+}
+.PlacedOrder__emailConfirmation {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+}
+.PlacedOrder__emailConfirmation__text {
+        display: flex;
+        flex-direction: column;
+        justify-content:space-between;
+        height: 61px;
+        padding:20px 100px ;
+}
+.PlacedOrder__emailConfirmation__link {
+        margin-top: 40px;
+        display: block;
+        
+}
+
+.PlacedOrder__emailConfirmation__link a {
+        font-weight: bold;
+        color: #fff;
+        padding: 20px;
+        background-color: #bbaa7f;
+    }
+.PlacedOrder__products {
+        padding:20px 0 20px 100px;
+}
+
+.PlacedOrder__products .donePage {
+        margin: 0;
+}

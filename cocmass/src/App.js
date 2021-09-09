@@ -11,11 +11,44 @@ import Nav from './components/Nav'
 import Orders from './components/Orders'
 import Address from './components/Address'
 import Profile from './components/Profile'
+import PlacedOrder from './components/PlacedOrder'
 // import { useLocation  } from "react-router-dom";
 
 function App() {
 
   const [snapshots, setSnapshots] = useState();
+  const [completedSnapshots, setCompletedSnapshots] = useState();
+  const [User, setUser] = useState()
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    auth.onAuthStateChanged((authUser) => {
+       
+        setUser(authUser)
+    })
+   
+}, [])
+  useEffect(()=> {
+      let cancelled = false;
+      User && db.collection("users").doc(User.uid).collection("info").doc("orders").collection("ordersDetails").orderBy("items", "desc").get()
+      .then(   (snapshot) => {
+          if (!cancelled) {
+            setCompletedSnapshots(snapshot.docs);
+              setItems(snapshot.docs.map(doc => doc.data()));
+          }
+      })
+ 
+      .catch(error => {
+          console.log(error)
+      });
+      return () => {
+          cancelled = true;
+      };
+  }, [User]);
+
+
+  items && items.map((products) => console.log(products.id));
+
   useEffect(()=> {
       db.collection("products")
        .get()
@@ -26,6 +59,16 @@ function App() {
       ; 
     
   }, []);
+  useEffect(()=> {
+    db.collection("products")
+     .get()
+     .then((snapshot) => {
+      setSnapshots(snapshot.docs)            
+     }
+    ) 
+    ; 
+  
+}, []);
   // console.log(snapshots)
 
   return (
@@ -38,15 +81,14 @@ function App() {
         <Route path={doc.data().path}>
           <ProductDetails image={doc.data().image}  title={doc.data().title} body1={doc.data().body1} body2={doc.data().body2} price={doc.data().price} id={doc.data().id} />
          </Route>      
-                  ))}  
+                  ))} 
+       { items && items.map((products) => (
+            <Route path={"/" + products.id}>
+            <PlacedOrder products={products} />
+           </Route> 
+       ))
+      } 
 
-       <Route path="/product-details-cake">
-         <ProductDetails image="https://bramleyandgage.s3.eu-west-1.amazonaws.com/wp-content/uploads/2019/10/21075042/Brunel.png" 
-         title="Brunel" 
-         price="£25.00 – £232.20" 
-         body1="Exquisitely Engineered 6 O’clock Gin Brunel is an export strength expression of our classic London Dry gin." 
-         body2="Distilled with more juniper and 6 additional botanicals for a more complex flavour profile." />
-       </Route>
        <Route path="/cart">
          <Cart />
        </Route>
@@ -61,6 +103,9 @@ function App() {
        </Route>
         <Route path="/profile">
           <Profile />
+          </Route>
+          <Route path="/done">
+          <PlacedOrder />
           </Route>
     </Router>
   )
