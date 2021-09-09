@@ -250,7 +250,7 @@ function Checkout() {
          )
          .then(
          
-            emailjs.sendForm('gmail', 'contact_form', e.target, 'user_a0kajKqW2OgKvEfUtbcxw')
+            emailjs.sendForm('gmail', 'contact_form',e.target, 'user_a0kajKqW2OgKvEfUtbcxw')
             .then((result) => {
                 console.log(result.text);
             }, (error) => {
@@ -316,9 +316,21 @@ function Checkout() {
                              <input className="checkout__address__details__info__element__input__element" type="text" placeholder="" value={Mobile} onChange={e=>setMobile(e.target.value)}/>
                         </span>
                     </span>
+                    <span className="checkout__address__details__info__element hidden" >
+                        <label for="billing_first_name" class="">Mobile</label>
+                        <span className="checkout__address__details__info__element__input">
+                             <input className="checkout__address__details__info__element__input__element" type="text" placeholder="" value={Total} onChange={e=>setMobile(e.target.value)} name="number"/>
+                        </span>
+                    </span>
+                    <span className="checkout__address__details__info__element hidden">
+                        <label for="billing_first_name" class="">Mobile</label>
+                        <span className="checkout__address__details__info__element__input">
+                             <input className="checkout__address__details__info__element__input__element" type="text" placeholder="" value="https://templates.mailchimp.com/resources/inline-css/" onChange={e=>setMobile(e.target.value)} name="link"/>
+                        </span>
+                    </span>
                     </div>
                 </div>
-                <div className="yourOrder">
+                <div className="yourOrder" name="order">
                 <h3>Your Order</h3>
                 { items && items.map((item) => 
      
