@@ -1,5 +1,5 @@
 .PlacedOrder { 
-        padding: 120px 20% 0 20%;
+        padding: 180px 20% 0 20%;
         background-color: #fbfafa;
         min-height:80vh;
         justify-content: center;
@@ -14,7 +14,7 @@
         flex-direction: column;
         justify-content:space-between;
         height: 61px;
-        padding:20px 100px ;
+        padding:20px 0 ;
 }
 .PlacedOrder__emailConfirmation__link {
         margin-top: 40px;
@@ -29,9 +29,22 @@
         background-color: #bbaa7f;
     }
 .PlacedOrder__products {
-        padding:20px 0 20px 100px;
+        padding:20px 0 20px 0;
 }
 
 .PlacedOrder__products .donePage {
         margin: 0;
 }
+.PlacedOrder__callToAction {
+        text-align: center;
+        padding-top: 50px;
+}
+
+.PlacedOrder__callToAction__link a {
+        display: block;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: #fff;
+        padding: 20px;
+        background-color: #bbaa7f;
+    }

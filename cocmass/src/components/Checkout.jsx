@@ -173,17 +173,17 @@ function Checkout() {
                      db.collection("users").doc(User.uid).set({
                          code : "undefined"
                      })
-                 ).then(console.log("done 2"))
-                 .then(
+                 ).then(console.log("done 2"),history.push("/" + id),window.location.reload(),)
+                //  .then(
          
-                    emailjs.sendForm('gmail', 'contact_form',e.target, 'user_a0kajKqW2OgKvEfUtbcxw')
-                    .then((result) => {
-                        console.log(result.text);
-                    }, (error) => {
-                        console.log(error.text);
-                    })
-                    )
-                    .then(history.push("/" + id),window.location.reload())
+                //     emailjs.sendForm('gmail', 'contact_form',e.target, 'user_a0kajKqW2OgKvEfUtbcxw')
+                //     .then((result) => {
+                //         console.log(result.text);
+                //     }, (error) => {
+                //         console.log(error.text);
+                //     })
+                //     )
+                   
          ) : 
          db.collection("users").doc(User.uid).collection("info").doc("orders").collection("ordersDetails").doc().set({
              subTotal : Total,
@@ -198,17 +198,17 @@ function Checkout() {
                  querySnapshot.forEach(function(doc) {
                      doc.ref.delete()
                  })
-                 } ).then(console.log("done 2"))
-                    .then(
+                 } ).then(console.log("done 2"),history.push("/" + id),window.location.reload())
+                    // .then(
          
-                        emailjs.sendForm('gmail', 'contact_form',e.target, 'user_a0kajKqW2OgKvEfUtbcxw')
-                        .then((result) => {
-                            console.log(result.text);
-                        }, (error) => {
-                            console.log(error.text);
-                        })
-                        )
-                        .then(history.push("/" + id),window.location.reload())
+                    //     emailjs.sendForm('gmail', 'contact_form',e.target, 'user_a0kajKqW2OgKvEfUtbcxw')
+                    //     .then((result) => {
+                    //         console.log(result.text);
+                    //     }, (error) => {
+                    //         console.log(error.text);
+                    //     })
+                    //     )
+                      
                     )
 
     }

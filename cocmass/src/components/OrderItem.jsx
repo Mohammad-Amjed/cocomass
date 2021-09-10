@@ -25,7 +25,7 @@ function OrderItem({ price , title , image , quantity , id , placed}) {
                     </div>
                 </div>
                {placed && <div className="orderItem__info__title__price__status">
-                    <h5 style={{color: "green"}}>Delivered</h5>  
+                    <h5 style={{color: "orange"}}>Processing</h5>  
                     </div>}
             </div>
             <div className="orderItem__info__price">
