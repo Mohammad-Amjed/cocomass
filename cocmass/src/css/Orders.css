@@ -19,3 +19,41 @@
 .orders__content__title h3 {
     margin-bottom: 5px;
 }
+@media only screen and (max-width:1300px) {
+    .orders {
+
+        padding: 120px 80px 0 80px !important;
+
+    }
+  }
+  @media only screen and (max-width:1050px) {
+    .orders {
+
+        padding: 120px 30px 0 40px !important;
+
+    }
+  }
+  @media only screen and (max-width:866px) {
+    .orders {
+
+        padding: 120px 10px 0 25px !important;
+
+    }
+  }
+  @media only screen and (max-width:830px) {
+    .orders__sidebar {
+        display: none;
+
+    }
+    .orders__content {
+        flex :1;
+    }
+  }
+  @media only screen and (max-width:500px) {
+    .orders {
+
+        padding: 120px 10px 0 10px !important;
+
+    }
+   
+  }

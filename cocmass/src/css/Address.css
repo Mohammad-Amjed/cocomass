@@ -24,4 +24,41 @@
     padding: 20px;
     background-color: #bbaa7f;
 }
-/* :disabled {background-color:rgb(235,235,228)}; */
+@media only screen and (max-width:1300px) {
+    .address {
+
+        padding: 120px 80px 0 80px !important;
+
+    }
+  }
+  @media only screen and (max-width:1050px) {
+    .address {
+
+        padding: 120px 30px 0 40px !important;
+
+    }
+  }
+  @media only screen and (max-width:866px) {
+    .address {
+
+        padding: 120px 10px 0 25px !important;
+
+    }
+  }
+  @media only screen and (max-width:830px) {
+    .address__sideBar {
+        display: none !important;
+
+    }
+    .address__content {
+        flex :1;
+    }
+  }
+  @media only screen and (max-width:500px) {
+    .address {
+
+        padding: 120px 10px 0 10px !important;
+
+    }
+   
+  }

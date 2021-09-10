@@ -6,6 +6,7 @@
   margin-right: 50px;
   margin-bottom: 10px;
 }
+
 .orderItem__info {
   display: flex;
   justify-content: space-between;
@@ -49,3 +50,10 @@
     margin-right: 1rem;
   }
 }
+
+@media only screen and (max-width:830px) {
+  .placedOrderItem {
+    margin-right: 0 !important;
+  }
+}
+

@@ -5,7 +5,7 @@
     padding-bottom: 10px;
 }
 .sideBar a {
-    paddinng-bottom:20px;
+    padding-bottom:20px;
 }
 .sidebar__title { 
     padding-bottom: 20px;
@@ -37,3 +37,14 @@
     display: inline-block;
     padding-left: 10px;
 }
+@media only screen and (max-width:1100px) {
+    .sideBar {
+    padding-right: 30px;
+}
+  }
+
+  @media only screen and (max-width:866) {
+    .sideBar {
+    padding-right: 10px;
+}
+  }

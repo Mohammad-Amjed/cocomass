@@ -7,7 +7,7 @@ function OrderItem({ price , title , image , quantity , id , placed}) {
 
 
     return (
-        <div className="orderItem">
+        <div className={placed ? "placedOrderItem orderItem" : "orderItem"}>
         <div className="orderItem__image">
         <img src={image}/>
         </div>  

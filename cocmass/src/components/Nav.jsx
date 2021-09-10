@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import LocationOnOutlinedIcon from '@material-ui/icons/LocationOnOutlined';
+import DnsOutlinedIcon from '@material-ui/icons/DnsOutlined';
+import AccountBoxOutlinedIcon from '@material-ui/icons/AccountBoxOutlined';
 import Modal from 'react-modal';
 import "../css/Nav.css"
 import { auth, db } from '../backend/firebase';
@@ -8,6 +12,7 @@ import Authintication from './Authintication';
 
 function Nav() {
     const [ToggleHeight, setToggleHeight] = useState()
+    const [ToggleClassName, setToggleClassName] = useState("hideNav") 
     const [ModalIsOpen, setModalIsOpen] = useState(false)
     const [User, setUser] = useState()
     const [Basket, setBasket] = useState(0)
@@ -48,6 +53,13 @@ function Nav() {
     const closeModal = ()=> {
       setModalIsOpen(false)
   }
+
+  const showClassName = () => {
+      setToggleClassName("showNav")
+  }
+  const hideClassName = () => {
+    setToggleClassName("hideNav")
+}
     const logout = ()=> {
       auth.signOut().then(() => {
           console.log("success")
@@ -57,6 +69,11 @@ function Nav() {
         });
         
     }
+    // const hide = ToggleClassName === "showNav" ? document.querySelector("html") : document.querySelector(".toggleDropdown") ; 
+   
+    //     ToggleClassName === "showNav" && hide.addEventListener("click",  hideClassName);
+    //     ToggleClassName === "hideNav" && hide.addEventListener("click",  showClassName);
+    
     const customStyles = {
       content : {
         top                   : '50%',
@@ -89,9 +106,20 @@ function Nav() {
             </div>
             <div className="nav__navContent__userInfo">
                 <ul id="nm-main-menu-ul" className="nm-menu">
-                {User && !User.isAnonymous ?   <li className="logIn" onClick={logout}>
-                    Log out
-                    </li> :   <li className="logIn" onClick={OpenModal}>
+                {User && !User.isAnonymous ?
+                 <div class="dropdown">
+                        <li className="logIn toggleDropdown dropbtn" onClick={ToggleClassName === "hideNav" ? showClassName : hideClassName}>
+                    
+                      <span className="dropbtn__wrap"> <span> My Account</span>  <ArrowDropDownIcon /></span>
+                       
+                        <div className="sideBar__links dropdown-content">
+                            <Link  to="/orders"><DnsOutlinedIcon /> <span className="sideBar__links__text">Orders</span></Link>
+                            <Link  to="/address"><LocationOnOutlinedIcon /> <span className="sideBar__links__text">Address</span></Link>
+                            <Link  to="/profile"><AccountBoxOutlinedIcon /> <span className="sideBar__links__text">Profile</span></Link>
+                        </div>
+                     
+                    </li> 
+                    </div>:   <li className="logIn" onClick={OpenModal}>
                         Log In
                     </li>}
                     <Modal   isOpen={ModalIsOpen} onRequestClose={closeModal} style={customStyles}>

@@ -16,3 +16,13 @@
     padding: 5px 10px;
     background-color: lightgrey;
 }
+
+@media only screen and (max-width:830px) {
+    .completeOrder {
+        margin-left:0;
+        border-left: none;
+    }
+    .completeOrder__detail {
+        margin-bottom: 9px !important;
+    }
+  }
