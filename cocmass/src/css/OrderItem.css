@@ -45,15 +45,17 @@
 .orderItem__info__title__price__status {
   padding-top: 10px;
 }
+@media only screen and (max-width:830px) {
+  .placedOrderItem {
+    margin-right: 0 !important;
+  }
+}
+
 @media only screen and (max-width: 475px) {
   .orderItem {
     margin-right: 1rem;
   }
 }
 
-@media only screen and (max-width:830px) {
-  .placedOrderItem {
-    margin-right: 0 !important;
-  }
-}
+
 

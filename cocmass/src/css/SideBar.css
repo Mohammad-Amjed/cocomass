@@ -30,7 +30,7 @@
     box-shadow: rgb(173 193 207 / 25%) 0px 2px 10px 0px;
 }
 .active {
-    background-color: #fff;
+    background-color: #fff !important;
     box-shadow: rgb(173 193 207 / 25%) 0px 2px 10px 0px;
 }
 .sideBar__links span {
@@ -48,3 +48,41 @@
     padding-right: 10px;
 }
   }
+
+  @media only screen and (max-width:830px) {
+      .sideBar {
+          margin-bottom: 30px;
+          padding-right: 10px;
+      }
+      .sidebar__title {
+        display: flex;
+        justify-content: space-between;
+        
+        padding-bottom: 10px;
+    }
+    .sideBar__links { 
+        display:flex;
+      
+    }
+    .sideBar__links a {
+        justify-content:center;
+        background: rgb(241, 243, 250);
+        
+    }
+    .sideBar__links a:hover {
+        background-color: #fff;
+    }
+  }
+  
+  @media only screen and (max-width:500px) {
+    .sideBar {
+        padding-right: 0;
+    }
+
+}
+@media only screen and (max-width:380px) {
+    .sideBar__links a {
+        padding: 0;
+    }
+
+}

@@ -4,6 +4,7 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import LocationOnOutlinedIcon from '@material-ui/icons/LocationOnOutlined';
 import DnsOutlinedIcon from '@material-ui/icons/DnsOutlined';
 import AccountBoxOutlinedIcon from '@material-ui/icons/AccountBoxOutlined';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Modal from 'react-modal';
 import "../css/Nav.css"
 import { auth, db } from '../backend/firebase';
@@ -110,12 +111,13 @@ function Nav() {
                  <div class="dropdown">
                         <li className="logIn toggleDropdown dropbtn" onClick={ToggleClassName === "hideNav" ? showClassName : hideClassName}>
                     
-                      <span className="dropbtn__wrap"> <span> My Account</span>  <ArrowDropDownIcon /></span>
+                      <span className="dropbtn__wrap"> <span> My<span style={{padding: "2px"}}></span>Account</span>  <ArrowDropDownIcon /></span>
                        
                         <div className="sideBar__links dropdown-content">
                             <Link  to="/orders"><DnsOutlinedIcon /> <span className="sideBar__links__text">Orders</span></Link>
                             <Link  to="/address"><LocationOnOutlinedIcon /> <span className="sideBar__links__text">Address</span></Link>
                             <Link  to="/profile"><AccountBoxOutlinedIcon /> <span className="sideBar__links__text">Profile</span></Link>
+                            <Link  onClick={logout}><ExitToAppIcon /> <span className="sideBar__links__text">Logout</span></Link>
                         </div>
                      
                     </li> 

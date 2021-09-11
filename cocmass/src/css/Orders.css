@@ -41,8 +41,9 @@
     }
   }
   @media only screen and (max-width:830px) {
-    .orders__sidebar {
-        display: none;
+    .orders{
+        display: block !important;
+        padding: 80px 10px 0 25px !important;
 
     }
     .orders__content {

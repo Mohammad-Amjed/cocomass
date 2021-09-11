@@ -46,14 +46,17 @@
     }
   }
   @media only screen and (max-width:830px) {
-    .address__sideBar {
-        display: none !important;
+    .address{
+        display: block !important;
+        padding: 80px 10px 0 25px !important;
 
     }
+
     .address__content {
         flex :1;
     }
   }
+
   @media only screen and (max-width:500px) {
     .address {
 

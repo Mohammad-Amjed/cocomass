@@ -32,10 +32,12 @@
     }
   }
   @media only screen and (max-width:830px) {
-    .profile__sideBar {
-        display: none !important;
+    .profile{
+        display: block !important;
+        padding: 80px 10px 0 25px !important;
 
     }
+
     .profile__content {
         flex :1;
     }

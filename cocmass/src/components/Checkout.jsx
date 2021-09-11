@@ -13,7 +13,7 @@ function Checkout() {
     const [Lname, setLname] = useState()
     const [City, setCity] = useState()
     const [ArdessOne, setArdessOne] = useState()
-    const [ArdressTwo, setArdressTwo] = useState()
+    const [Email, setEmail] = useState()
     const [Mobile, setMobile] = useState()
     const [items, setItems] = useState([]);
     const [updateItem, setUpdateItem] = useState()
@@ -153,7 +153,7 @@ function Checkout() {
              Lname,
              City,
              ArdessOne,
-             ArdressTwo,
+             Email,
              Mobile
          }).then(console.log("done"))
             SubTotalValue != 0 ?  db.collection("users").doc(User.uid).collection("info").doc("orders").collection("ordersDetails").doc().set({
@@ -198,7 +198,8 @@ function Checkout() {
                  querySnapshot.forEach(function(doc) {
                      doc.ref.delete()
                  })
-                 } ).then(console.log("done 2"),history.push("/" + id),window.location.reload())
+                 } )
+                 .then(console.log("done 2"),history.push("/" + id),window.location.reload())
                     // .then(
          
                     //     emailjs.sendForm('gmail', 'contact_form',e.target, 'user_a0kajKqW2OgKvEfUtbcxw')
@@ -251,30 +252,33 @@ function Checkout() {
                         </select>
                         </span>
                     </span>
-                    <span className="checkout__address__details__info__element">
-                        <label for="billing_first_name" class="">Adreess line 1</label>
+                    {User && User.isAnonymous &&  <span className="checkout__address__details__info__element">
+                        <label for="billing_first_name" class="">email</label>
                         <span className="checkout__address__details__info__element__input">
-                             <input className="checkout__address__details__info__element__input__element" type="text" placeholder="" value={ArdessOne} onChange={e=>setArdessOne(e.target.value)}/>
+                             <input className="checkout__address__details__info__element__input__element" type="email" placeholder="" value={Email} onChange={e=>setEmail(e.target.value)} />
                         </span>
-                    </span>
-                    <span className="checkout__address__details__info__element">
-                        <label for="billing_first_name" class="">Adreess line 2</label>
-                        <span className="checkout__address__details__info__element__input">
-                             <input className="checkout__address__details__info__element__input__element" type="text" placeholder="" value={ArdressTwo} onChange={e=>setArdressTwo(e.target.value)} />
-                        </span>
-                    </span>
+                    </span>}
                     <span className="checkout__address__details__info__element">
                         <label for="billing_first_name" class="">Mobile</label>
                         <span className="checkout__address__details__info__element__input">
                              <input className="checkout__address__details__info__element__input__element" type="text" placeholder="" value={Mobile} onChange={e=>setMobile(e.target.value)}/>
                         </span>
                     </span>
+                    
                     <span className="checkout__address__details__info__element hidden" >
                         <label for="billing_first_name" class="">Mobile</label>
                         <span className="checkout__address__details__info__element__input">
                              <input className="checkout__address__details__info__element__input__element" type="text" placeholder="" value={Total} onChange={e=>setMobile(e.target.value)} name="number"/>
                         </span>
+
                     </span>
+                    <span className="checkout__address__details__info__element ">
+                        <label for="billing_first_name" class="">Address</label>
+                        <span className="checkout__address__details__info__element__input">
+                             <input className="checkout__address__details__info__element__input__element checkOutAddress" type="text" placeholder="" value={ArdessOne} onChange={e=>setArdessOne(e.target.value)}/>
+                        </span>
+                    </span>
+                    {/* Hidde elemnt for email js */}
                     <span className="checkout__address__details__info__element hidden">
                         <label for="billing_first_name" class="">Mobile</label>
                         <span className="checkout__address__details__info__element__input">
