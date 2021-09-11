@@ -24,10 +24,12 @@ function Checkout() {
     const [User, setUser] = useState()
     const [id] = useState(uniqid("COSM00").toUpperCase());
     const history =  useHistory()
+    
     useEffect(() => {
       auth.onAuthStateChanged((authUser) => {
          
           setUser(authUser)
+          setEmail(authUser.email)
       })
      
   }, [])
@@ -214,7 +216,7 @@ function Checkout() {
 
     }
 
-
+       User && console.log(User.email)
     return (
         <form className="checkout" onSubmit={sendEmail}>
             <div className="checkout__address">
@@ -252,12 +254,12 @@ function Checkout() {
                         </select>
                         </span>
                     </span>
-                    {User && User.isAnonymous &&  <span className="checkout__address__details__info__element">
+                     <span className="checkout__address__details__info__element">
                         <label for="billing_first_name" class="">email</label>
                         <span className="checkout__address__details__info__element__input">
                              <input className="checkout__address__details__info__element__input__element" type="email" placeholder="" value={Email} onChange={e=>setEmail(e.target.value)} />
                         </span>
-                    </span>}
+                    </span>
                     <span className="checkout__address__details__info__element">
                         <label for="billing_first_name" class="">Mobile</label>
                         <span className="checkout__address__details__info__element__input">
