@@ -93,7 +93,7 @@ function Address() {
              <div className="checkout__address__title">
                      <h2>BILLING DETAILS</h2>
                 </div>
-                { Confirm && <div className="productDetails__right__checkout__confirm"><span><DoneIcon /></span>Addres has been updated successfully</div> }
+                { Confirm && <div className="productDetails__right__checkout__confirm"><span><DoneIcon /></span>Address has been updated successfully</div> }
                 {!ToggleButton && <div className="address__content__button">
                     <Link onClick={handleSubmit}>ADD NEW ADDRESS</Link>
                 </div>}

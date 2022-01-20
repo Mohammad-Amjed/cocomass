@@ -13,7 +13,7 @@ function Checkout() {
     const [Lname, setLname] = useState()
     const [City, setCity] = useState()
     const [ArdessOne, setArdessOne] = useState()
-    const [Email, setEmail] = useState()
+    const [ArdressTwo, setArdressTwo] = useState()
     const [Mobile, setMobile] = useState()
     const [items, setItems] = useState([]);
     const [updateItem, setUpdateItem] = useState()
@@ -24,12 +24,10 @@ function Checkout() {
     const [User, setUser] = useState()
     const [id] = useState(uniqid("COSM00").toUpperCase());
     const history =  useHistory()
-    
     useEffect(() => {
       auth.onAuthStateChanged((authUser) => {
          
           setUser(authUser)
-          setEmail(authUser.email)
       })
      
   }, [])
@@ -145,80 +143,71 @@ function Checkout() {
 
             }, [items])
 
-
-    
-    function sendEmail(e) {
+    const handleSubmit = (e)=>{
         e.preventDefault();
-        console.log(id)
-        User && db.collection("users").doc(User.uid).collection("info").doc("address").set({
-             Fname,
-             Lname,
-             City,
-             ArdessOne,
-             Email,
-             Mobile
-         }).then(console.log("done"))
-            SubTotalValue != 0 ?  db.collection("users").doc(User.uid).collection("info").doc("orders").collection("ordersDetails").doc().set({
-                 subTotal : SubTotalValue,
-                 discount : Total - SubTotalValue,
-                 shipping : 30,                
-                 total : Total + 30,
-                 items,
-                 id : id,
-                 CreatedAt
-         }) .then(
-             db.collection("users").doc(User.uid).collection("basket").get().then(function(querySnapshot) {
-                 querySnapshot.forEach(function(doc) {
-                     doc.ref.delete()
-                 });
-                 }).then(
-                     db.collection("users").doc(User.uid).set({
-                         code : "undefined"
-                     })
-                 ).then(console.log("done 2"),history.push("/" + id),window.location.reload(),)
-                //  .then(
-         
-                //     emailjs.sendForm('gmail', 'contact_form',e.target, 'user_a0kajKqW2OgKvEfUtbcxw')
-                //     .then((result) => {
-                //         console.log(result.text);
-                //     }, (error) => {
-                //         console.log(error.text);
-                //     })
-                //     )
-                   
-         ) : 
-         db.collection("users").doc(User.uid).collection("info").doc("orders").collection("ordersDetails").doc().set({
-             subTotal : Total,
-             discount : 0,
-             shipping : 30,                
-             total : Total + 30,
-             items,
-             id : id,
-             CreatedAt
-     }) .then(
-             db.collection("users").doc(User.uid).collection("basket").get().then(function(querySnapshot) {
-                 querySnapshot.forEach(function(doc) {
-                     doc.ref.delete()
-                 })
-                 } )
-                 .then(console.log("done 2"),history.push("/" + id),window.location.reload())
-                    // .then(
-         
-                    //     emailjs.sendForm('gmail', 'contact_form',e.target, 'user_a0kajKqW2OgKvEfUtbcxw')
-                    //     .then((result) => {
-                    //         console.log(result.text);
-                    //     }, (error) => {
-                    //         console.log(error.text);
-                    //     })
-                    //     )
-                      
-                    )
+
+       User && db.collection("users").doc(User.uid).collection("info").doc("address").set({
+            Fname,
+            Lname,
+            City,
+            ArdessOne,
+            ArdressTwo,
+            Mobile
+        }).then(console.log("done"))
+           SubTotalValue != 0 ?  db.collection("users").doc(User.uid).collection("info").doc("orders").collection("ordersDetails").doc().set({
+                subTotal : SubTotalValue,
+                discount : Total - SubTotalValue,
+                shipping : 30,                
+                total : Total + 30,
+                items,
+                id,
+                CreatedAt
+        }) .then(
+            db.collection("users").doc(User.uid).collection("basket").get().then(function(querySnapshot) {
+                querySnapshot.forEach(function(doc) {
+                    doc.ref.delete()
+                });
+                }).then(
+                    db.collection("users").doc(User.uid).set({
+                        code : "undefined"
+                    }), 
+                  history.push("./"+ id)
+                ).then(window.location.reload())
+        ) : 
+        db.collection("users").doc(User.uid).collection("info").doc("orders").collection("ordersDetails").doc().set({
+            subTotal : Total,
+            discount : 0,
+            shipping : 30,                
+            total : Total + 30,
+            items,
+            id,
+            CreatedAt
+    }) .then(
+            db.collection("users").doc(User.uid).collection("basket").get().then(function(querySnapshot) {
+                querySnapshot.forEach(function(doc) {
+                    doc.ref.delete()
+                })
+                }, 
+                history.push("./"+ id)).then(window.location.reload())
+        )
+    //     .then(
+        
+    //     emailjs.sendForm('service_vfb8sdj', 'contact_form', e.target, 'user_a0kajKqW2OgKvEfUtbcxw')
+    //   .then((result) => {
+    //       console.log(result.text);
+    //   }, (error) => {
+    //       console.log(error.text);
+    //   })).then(console.log("doneeeeeeeeeeeeee"))
+
 
     }
 
-       User && console.log(User.email)
+    
+
+
+
     return (
-        <form className="checkout" onSubmit={sendEmail}>
+        <div className="checkout">
             <div className="checkout__address">
                 <div className="checkout__address__title">
                      <h2>BILLING DETAILS</h2>
@@ -254,10 +243,16 @@ function Checkout() {
                         </select>
                         </span>
                     </span>
-                     <span className="checkout__address__details__info__element">
-                        <label for="billing_first_name" class="">email</label>
+                    <span className="checkout__address__details__info__element">
+                        <label for="billing_first_name" class="">Adreess line 1</label>
                         <span className="checkout__address__details__info__element__input">
-                             <input className="checkout__address__details__info__element__input__element" type="email" placeholder="" value={Email} onChange={e=>setEmail(e.target.value)} />
+                             <input className="checkout__address__details__info__element__input__element" type="text" placeholder="" value={ArdessOne} onChange={e=>setArdessOne(e.target.value)}/>
+                        </span>
+                    </span>
+                    <span className="checkout__address__details__info__element">
+                        <label for="billing_first_name" class="">Adreess line 2</label>
+                        <span className="checkout__address__details__info__element__input">
+                             <input className="checkout__address__details__info__element__input__element" type="text" placeholder="" value={ArdressTwo} onChange={e=>setArdressTwo(e.target.value)} />
                         </span>
                     </span>
                     <span className="checkout__address__details__info__element">
@@ -266,30 +261,9 @@ function Checkout() {
                              <input className="checkout__address__details__info__element__input__element" type="text" placeholder="" value={Mobile} onChange={e=>setMobile(e.target.value)}/>
                         </span>
                     </span>
-                    
-                    <span className="checkout__address__details__info__element hidden" >
-                        <label for="billing_first_name" class="">Mobile</label>
-                        <span className="checkout__address__details__info__element__input">
-                             <input className="checkout__address__details__info__element__input__element" type="text" placeholder="" value={Total} onChange={e=>setMobile(e.target.value)} name="number"/>
-                        </span>
-
-                    </span>
-                    <span className="checkout__address__details__info__element ">
-                        <label for="billing_first_name" class="">Address</label>
-                        <span className="checkout__address__details__info__element__input">
-                             <input className="checkout__address__details__info__element__input__element checkOutAddress" type="text" placeholder="" value={ArdessOne} onChange={e=>setArdessOne(e.target.value)}/>
-                        </span>
-                    </span>
-                    {/* Hidde elemnt for email js */}
-                    <span className="checkout__address__details__info__element hidden">
-                        <label for="billing_first_name" class="">Mobile</label>
-                        <span className="checkout__address__details__info__element__input">
-                             <input className="checkout__address__details__info__element__input__element" type="text" placeholder="" value="https://templates.mailchimp.com/resources/inline-css/" onChange={e=>setMobile(e.target.value)} name="link"/>
-                        </span>
-                    </span>
                     </div>
                 </div>
-                <div className="yourOrder" name="order">
+                <div className="yourOrder">
                 <h3>Your Order</h3>
                 { items && items.map((item) => 
      
@@ -301,17 +275,12 @@ function Checkout() {
                 <div className="checkout__placeOrder__OrderDetails">
                     <OrderDetails subTotal={Total} total={Total + 30} shipping={30} />
                  </div>
-                 
-                 <div className="checkout__placeOrder basket__button">
-                    {/* <Link onClick={handleSubmit}> Place Order</Link> */}
-              
-                            <input type="submit" value="Confirm Order"></input>
-      
+                 <div className=" checkout__placeOrder basket__button">
+                    <Link onClick={handleSubmit}> Place Order</Link>
                 </div>
-
             </div>
             
-        </form>
+        </div>
     )
 }
 
