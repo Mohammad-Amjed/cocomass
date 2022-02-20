@@ -6,17 +6,19 @@ import "../css/Address.css"
 import SideBar from './SideBar';
 
 function Address() {
-    const [Fname, setFname] = useState()
-    const [Lname, setLname] = useState()
-    const [City, setCity] = useState()
+    const initialState = ""
+    const [Fname, setFname] = useState(initialState)
+    const [Lname, setLname] = useState(initialState)
+    const [City, setCity] = useState(initialState)
+    const [ArdessOne, setArdessOne] = useState(initialState)
+    const [ArdressTwo, setArdressTwo] = useState(initialState)
+    const [Mobile, setMobile] = useState(initialState)
     const [Confirm, setConfirm] = useState(false)
     const [UpdateDatebase, setUpdateDatebase] = useState(false)
-    const [ArdessOne, setArdessOne] = useState()
-    const [ArdressTwo, setArdressTwo] = useState()
     const [snapshots, setSnapshots] = useState(undefined);
-    const [Mobile, setMobile] = useState()
     const [User, setUser] = useState()
     const [ToggleButton, setToggleButton] = useState(false)
+    const [Class, setClass] = useState("hidden-validation")
 
     useEffect(() => {
         auth.onAuthStateChanged((authUser) => {
@@ -64,6 +66,7 @@ function Address() {
                 setSnapshots(undefined);
                 setConfirm(false);
                 }else{
+                    if(Fname != initialState && City != initialState && Lname != initialState && Mobile != initialState && ArdessOne != initialState && ArdressTwo != initialState){
                 User && db.collection("users").doc(User.uid).collection("info").doc("address").set({
                     Fname,
                     Lname,
@@ -82,6 +85,13 @@ function Address() {
                     UpdateDatebase ?  setUpdateDatebase(false) : setUpdateDatebase(true),
                     setToggleButton(false),
                     console.log("done"))
+                    setClass("hidden-validation")
+
+                }else{
+                    setClass("validation")
+                  
+                }
+
                 }
               }
     return (
@@ -93,6 +103,7 @@ function Address() {
              <div className="checkout__address__title">
                      <h2>BILLING DETAILS</h2>
                 </div>
+                <small className={Class}>please fill the empty fields</small>
                 { Confirm && <div className="productDetails__right__checkout__confirm"><span><DoneIcon /></span>Address has been updated successfully</div> }
                 {!ToggleButton && <div className="address__content__button">
                     <Link onClick={handleSubmit}>ADD NEW ADDRESS</Link>

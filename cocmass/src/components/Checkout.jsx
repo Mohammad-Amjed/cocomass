@@ -9,12 +9,13 @@ import uniqid from 'uniqid';
 
 
 function Checkout() {
-    const [Fname, setFname] = useState()
-    const [Lname, setLname] = useState()
-    const [City, setCity] = useState()
-    const [ArdessOne, setArdessOne] = useState()
-    const [ArdressTwo, setArdressTwo] = useState()
-    const [Mobile, setMobile] = useState()
+    const initialState = ""
+    const [Fname, setFname] = useState(initialState)
+    const [Lname, setLname] = useState(initialState)
+    const [City, setCity] = useState(initialState)
+    const [ArdessOne, setArdessOne] = useState(initialState)
+    const [ArdressTwo, setArdressTwo] = useState(initialState)
+    const [Mobile, setMobile] = useState(initialState)
     const [items, setItems] = useState([]);
     const [updateItem, setUpdateItem] = useState()
     const [subTotal, setSubTotal] = useState([]);
@@ -24,6 +25,10 @@ function Checkout() {
     const [User, setUser] = useState()
     const [id] = useState(uniqid("COSM00").toUpperCase());
     const history =  useHistory()
+    const [UpdateDatebase, setUpdateDatebase] = useState(false)
+    const [snapshots, setSnapshots] = useState(undefined);
+    const [ToggleButton, setToggleButton] = useState(false)
+    const [Class, setClass] = useState("hidden-validation")
     useEffect(() => {
       auth.onAuthStateChanged((authUser) => {
          
@@ -145,7 +150,7 @@ function Checkout() {
 
     const handleSubmit = (e)=>{
         e.preventDefault();
-
+    if(Fname != initialState && City != initialState && Lname != initialState && Mobile != initialState && ArdessOne != initialState && ArdressTwo != initialState){
        User && db.collection("users").doc(User.uid).collection("info").doc("address").set({
             Fname,
             Lname,
@@ -153,7 +158,7 @@ function Checkout() {
             ArdessOne,
             ArdressTwo,
             Mobile
-        }).then(console.log("done"))
+        }).catch((error) => { console.log(error.message); }).then(console.log("done"))
            SubTotalValue != 0 ?  db.collection("users").doc(User.uid).collection("info").doc("orders").collection("ordersDetails").doc().set({
                 subTotal : SubTotalValue,
                 discount : Total - SubTotalValue,
@@ -162,18 +167,18 @@ function Checkout() {
                 items,
                 id,
                 CreatedAt
-        }) .then(
+        }).catch((error) => { console.log(error.message); }) .then(
             db.collection("users").doc(User.uid).collection("basket").get().then(function(querySnapshot) {
                 querySnapshot.forEach(function(doc) {
                     doc.ref.delete()
                 });
-                }).then(
+                }).catch((error) => { console.log(error.message); }).then(
                     db.collection("users").doc(User.uid).set({
                         code : "undefined"
                     }), 
                   history.push("./"+ id)
-                ).then(window.location.reload())
-        ) : 
+                ).catch((error) => { console.log(error.message); }).then(window.location.reload())
+        ).catch((error) => { console.log(error.message); }) : 
         db.collection("users").doc(User.uid).collection("info").doc("orders").collection("ordersDetails").doc().set({
             subTotal : Total,
             discount : 0,
@@ -182,14 +187,14 @@ function Checkout() {
             items,
             id,
             CreatedAt
-    }) .then(
+    }).catch((error) => { console.log(error.message); }) .then(
             db.collection("users").doc(User.uid).collection("basket").get().then(function(querySnapshot) {
                 querySnapshot.forEach(function(doc) {
                     doc.ref.delete()
                 })
                 }, 
                 history.push("./"+ id)).then(window.location.reload())
-        )
+        ).catch((error) => { console.log(error.message); })
     //     .then(
         
     //     emailjs.sendForm('service_vfb8sdj', 'contact_form', e.target, 'user_a0kajKqW2OgKvEfUtbcxw')
@@ -199,12 +204,46 @@ function Checkout() {
     //       console.log(error.text);
     //   })).then(console.log("doneeeeeeeeeeeeee"))
 
-
+            }else{
+                setClass("validation")
+              
+            }
     }
 
-    
+    useEffect(()=> {
+        let cancelled = false;
+        User && db.collection("users").doc(User.uid).collection("info").doc("address").get()
+        .then(   (snapshot) => {
+            if (!cancelled) {
+                if(snapshot.exists){
+                setSnapshots(snapshot.data());
+                console.log(snapshot.data().Fname)
+                setFname(snapshot.data().Fname);
+                setLname(snapshot.data().Lname);
+                setCity(snapshot.data().City);
+                setArdessOne(snapshot.data().ArdessOne);
+                setArdressTwo(snapshot.data().ArdressTwo);
+                setMobile(snapshot.data().Mobile);
+                // *** Create `items` **once** when you get the snapshots
+            }
+        } if(!snapshot.exists){
+            console.log("No snapshots")
+            setToggleButton(true)}
+        })
+                // });
+                return () => {
+                    // *** The component has been unmounted. If you can proactively cancel
+                    // the outstanding DB operation here, that would be best practice.
+                    // This sets a flag so that it definitely doesn't try to update an
+                    // unmounted component, either because A) You can't cancel the DB
+                    // operation, and/or B) You can, but the cancellation occurred *just*
+                    // at the wrong time to prevent the promise fulfillment callback from
+                    // being queued. (E.g., you need it even if you can cancel.)
+                    cancelled = true;
+                };
+            }, [User, UpdateDatebase,]);
 
-
+        
 
     return (
         <div className="checkout">
@@ -212,6 +251,7 @@ function Checkout() {
                 <div className="checkout__address__title">
                      <h2>BILLING DETAILS</h2>
                 </div>
+                <small className={Class}>please fill the empty fields</small>
                 <div className="checkout__address__details">
                   <div className="checkout__address__details__name">
                     <span className="checkout__address__details__name__element">

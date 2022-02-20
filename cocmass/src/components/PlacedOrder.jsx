@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 import { Link } from 'react-router-dom'
 import { auth } from '../backend/firebase'
 import "../css/PlacedOrder.css"
-import Authintication from './Authintication';
+import PlacedOrderAuthintication from './PlacedOrderAuthintication';
 import CompletedOrder from './CompletedOrder'
 function PlacedOrder({products}) {
         const [ModalIsOpen, setModalIsOpen] = useState(false)
@@ -58,7 +58,7 @@ function PlacedOrder({products}) {
                        <div className="PlacedOrder__callToAction__link">
                        {User && User.isAnonymous ?  <Link onClick={OpenModal}>  <h3>Sign in to save and track your Order and to save your address</h3> </Link>: <Link to="/orders">  <h3>View Orders</h3> </Link> }
                                 <Modal   isOpen={ModalIsOpen} onRequestClose={closeModal} style={customStyles}>
-                           <Authintication />
+                           <PlacedOrderAuthintication />
                            </Modal>
                          </div>
                         </div>

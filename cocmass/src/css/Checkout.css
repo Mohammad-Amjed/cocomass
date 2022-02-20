@@ -72,6 +72,15 @@
 .hidden {
   display : none;
 }
+.validation {
+  color: red;
+  display: block;
+  padding: 10px;
+  font-weight: bold;
+}
+.hidden-validation {
+  display: none;
+}
 @media only screen and (max-width: 970px) {
   .checkout {
     flex-direction: column;
