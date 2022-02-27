@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import "../css/Authintication.css"
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+import firebase from "firebase"
 import { auth, db } from '../backend/firebase';
 
 
@@ -14,6 +15,17 @@ function Authintication() {
     const [Password, setPassword] = useState()
     const [Fname, setFname] = useState()
     const [Lname, setLname] = useState()
+    const [items, setItems] = useState();
+    const [User, setUser] = useState()
+    const [Uid, setUid] = useState()
+    const [Locked, setLocked] = useState(true)
+    useEffect(() => {
+      auth.onAuthStateChanged((authUser) => {
+         
+          setUser(authUser)
+      })
+     
+  }, [])
     const showPassword = ()=>{
         if (Type ==="password"){
             setType("text")
@@ -24,6 +36,34 @@ function Authintication() {
         }
     }
 
+    useEffect(()=> {
+      let cancelled = false;
+      User && User.isAnonymous && db.collection("users").doc(User.uid).collection("basket").get()
+      .then(   (snapshot) => {
+          // *** Don't try to set state if we've been unmounted in the meantime
+          if (!cancelled) {
+      
+              // *** Create `items` **once** when you get the snapshots
+              setItems(snapshot.docs.map(doc => doc.data()));
+              console.log(Uid)
+
+          }
+      })
+      // *** You need to catch and handle rejections
+      // .catch(error => {
+      //     console.log(error)
+      // });
+      return () => {
+          // *** The component has been unmounted. If you can proactively cancel
+          // the outstanding DB operation here, that would be best practice.
+          // This sets a flag so that it definitely doesn't try to update an
+          // unmounted component, either because A) You can't cancel the DB
+          // operation, and/or B) You can, but the cancellation occurred *just*
+          // at the wrong time to prevent the promise fulfillment callback from
+          // being queued. (E.g., you need it even if you can cancel.)
+          cancelled = true;
+      };
+  }, [User]);
     const  signIn = ()=>{
         if (Create){
             auth
@@ -36,9 +76,11 @@ function Authintication() {
                   console.log(auth.user)
                   db.collection("users").doc(auth.user.uid).set({
                     code: "undefined"
+                   
                 })
+                setUid(auth.user.uid)
               // ...
-            })
+            }).then(setLocked(false))
             .catch((error) => {
               console.log(error.message)
               // ..
@@ -51,14 +93,45 @@ function Authintication() {
           db.collection("users").doc(auth.user.uid).set({
             code: "undefined"
         })
+        setUid(auth.user.uid)
         }
-          )
+          ).then(setLocked(false))
 
         .catch((e) => {
           alert(e.message);
         });
     }
     } 
+
+    useEffect(() => {
+      const batch = db.batch();
+     !Locked && User && Uid && items &&
+     
+    //  items.forEach(item => {
+    //   batch.set(
+    //     db.collection("users").doc(Uid).collection("basket").doc(item.id), // <- use the item ID as the document ID
+    //     {
+    //       id: item.id,
+    //       quantity: firebase.firestore.FieldValue.increment(item.quantity)
+    //     },
+    //     { merge: true }
+    //   )
+    // });
+     
+
+     
+     items.forEach(item=>
+      
+      User && db.collection("users").doc(Uid).collection("basket").add({
+        id : item.id,
+        quantity : item.quantity
+    }, {merge: true})
+    .then(setLocked(true))
+     )
+ 
+     
+    
+      }, [items, User,Locked,Uid])
     return (
         <div className="auth">
             {/* <div className="auth__image">

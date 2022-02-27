@@ -31,6 +31,7 @@ function Cart() {
                 setSnapshots(snapshot.docs);
                 // *** Create `items` **once** when you get the snapshots
                 setItems(snapshot.docs.map(doc => doc.data()));
+                console.log(items)
             }
         })
      

@@ -10,7 +10,7 @@ import { auth, db } from '../backend/firebase';
 function PlacedOrderAuthintication() {
     const [Type, setType] = useState("password")
     const [Icon, setIcon] = useState(false)
-    const [Create, setCreate] = useState(false)
+    const [Create, setCreate] = useState(true)
     const [Email, setEmail] = useState()
     const [Password, setPassword] = useState()
     const [Fname, setFname] = useState()

@@ -56,7 +56,7 @@ function PlacedOrder({products}) {
                            <div className="PlacedOrder__callToAction">
         
                        <div className="PlacedOrder__callToAction__link">
-                       {User && User.isAnonymous ?  <Link onClick={OpenModal}>  <h3>Sign in to save and track your Order and to save your address</h3> </Link>: <Link to="/orders">  <h3>View Orders</h3> </Link> }
+                       {User && User.isAnonymous ?  <Link onClick={OpenModal}>  <h3>Sign up to save and track your Order and to save your address</h3> </Link>: <Link to="/orders">  <h3>View Orders</h3> </Link> }
                                 <Modal   isOpen={ModalIsOpen} onRequestClose={closeModal} style={customStyles}>
                            <PlacedOrderAuthintication />
                            </Modal>
