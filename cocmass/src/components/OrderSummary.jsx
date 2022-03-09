@@ -6,7 +6,7 @@ import "../css/OrderSummary.css"
 
 import firebase from "firebase/app";
 import "firebase/firestore";
-import CheckoutAuthintication from './CheckoutAuthintication';
+import Authintication from './Authintication';
 
 
 function OrderSummary() {
@@ -231,7 +231,7 @@ function OrderSummary() {
             {/* <Link to="./checkOut" > Proceed to checkout</Link> */}
             {User && User.isAnonymous ?  <Link onClick={OpenModal} > Proceed to checkout</Link> :<Link to="./checkOut" > Proceed to checkout</Link>  }
             <Modal   isOpen={ModalIsOpen} onRequestClose={closeModal} style={customStyles}>
-                        <CheckoutAuthintication />
+                        <Authintication AuthPage="OrderSummary"/>
                      </Modal>
         </div>
         </div>

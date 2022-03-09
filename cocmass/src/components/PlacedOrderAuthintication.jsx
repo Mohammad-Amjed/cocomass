@@ -47,9 +47,10 @@ function PlacedOrderAuthintication() {
                 console.log(user)
                 db.collection("users").doc(user.uid).set({
                   code: "undefined"
-              })
-              console.log("Account linking success", user);
-              history.push("./Orders")
+              }).then(
+                 console.log("Account linking success", user),
+              history.push("./Orders")).then(window.location.reload())
+             
             }, (error) => {
               console.log("Account linking error", error);
             })           
@@ -88,7 +89,7 @@ function PlacedOrderAuthintication() {
           
           batch.commit()
             .then(() => console.log('Updated basket successfully!'),
-            history.push("./Orders"))
+            history.push("./Orders")).then(window.location.reload())
             .catch((err) => console.error('Failed to update basket'));
           // items_array.forEach((doc)=>{
           //   db.collection("users").doc(auth.user.uid).collection("basket").add({
