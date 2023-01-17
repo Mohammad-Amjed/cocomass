@@ -1,10 +1,11 @@
 import { auth } from '../backend/firebase'
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link,  useHistory } from 'react-router-dom'
 import "../css/Product.css"
 
 function Product({image, price , title , body1 , body2 , path}) {
   const [User, setUser] = useState()
+  const history = useHistory();
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
        

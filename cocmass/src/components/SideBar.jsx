@@ -13,6 +13,7 @@ function SideBar() {
         auth.signOut().then(() => {
             console.log("success")
             history.push("/")
+            window.location.reload();
           }).catch((error) => {
             // An error happened.
           });

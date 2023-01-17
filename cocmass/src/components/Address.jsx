@@ -146,7 +146,7 @@ function Address() {
                         </span>
                     </span>
                     <span className="checkout__address__details__info__element">
-                        <label for="billing_first_name" class="">Adreess line 2</label>
+                        <label for="billing_first_name" class="">Email</label>
                         <span className="checkout__address__details__info__element__input">
                              <input className="checkout__address__details__info__element__input__element" type="text" placeholder="" value={snapshots ? snapshots.ArdressTwo : ArdressTwo} onChange={e=>setArdressTwo(e.target.value)} disabled={snapshots ? true :false}/>
                         </span>

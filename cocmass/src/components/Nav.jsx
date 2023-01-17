@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import LocationOnOutlinedIcon from '@material-ui/icons/LocationOnOutlined';
 import DnsOutlinedIcon from '@material-ui/icons/DnsOutlined';
@@ -17,6 +17,7 @@ function Nav() {
     const [ModalIsOpen, setModalIsOpen] = useState(false)
     const [User, setUser] = useState()
     const [Basket, setBasket] = useState(0)
+    const history = useHistory();
     
     useEffect(() => {
         auth.onAuthStateChanged((authUser) => {
@@ -64,6 +65,7 @@ function Nav() {
     const logout = ()=> {
       auth.signOut().then(() => {
           console.log("success")
+          history.push("/")
           window.location.reload();
         }).catch((error) => {
           // An error happened.

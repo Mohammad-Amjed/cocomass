@@ -59,8 +59,9 @@ function ChangePassword() {
                   ).then(() => {
                 User.updatePassword(NewPassword).then(() => {
                 alert("Password was changed");
-                }).catch((error) => { console.log(error.message); });
-                }).catch((error) => { console.log(error.message) });
+                window.location.reload();
+                }).catch((error) => { alert(error.message); });
+                }).catch((error) => { alert(error.message) });
         }
                         
         return (

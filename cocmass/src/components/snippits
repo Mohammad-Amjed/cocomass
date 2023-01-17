@@ -5,3 +5,20 @@ db.collection("users").document(FirebaseAuth.getInstance().currentUser.uid).dele
 
 
 https://medium.com/firebase-tips-tricks/how-to-delete-users-from-firebase-the-right-way-b4c348b2f75f
+
+
+
+
+
+
+
+// FORGOT PASSWORD: 
+
+firebase.auth().sendPasswordResetEmail(
+    Uid.email, actionCodeSettings)
+    .then(()=>
+      // Password reset email sent.
+    )
+    .catch(error)(=>
+    // Error occurred. Inspect error.code.
+    );
