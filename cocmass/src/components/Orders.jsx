@@ -19,7 +19,7 @@ function Orders() {
   }, [])
     useEffect(()=> {
         let cancelled = false;
-        User && db.collection("users").doc(User.uid).collection("info").doc("orders").collection("ordersDetails").orderBy("items", "desc").get()
+        User && db.collection("users").doc(User.uid).collection("info").doc("orders").collection("ordersDetails").orderBy("CreatedAt", "desc").get()
         .then(   (snapshot) => {
             // *** Don't try to set state if we've been unmounted in the meantime
             if (!cancelled) {

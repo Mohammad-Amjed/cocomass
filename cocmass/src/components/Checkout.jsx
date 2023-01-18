@@ -19,7 +19,7 @@ function Checkout() {
     const [items, setItems] = useState([]);
     const [updateItem, setUpdateItem] = useState()
     const [subTotal, setSubTotal] = useState([]);
-    const [Total, setTotal] = useState(0);
+    const [Discount, setDiscount] = useState(0);
     const [SubTotalValue, setubTotalValue] = useState(0);
     const CreatedAt = timestamp();
     const [User, setUser] = useState()
@@ -72,18 +72,21 @@ function Checkout() {
 
                     // setTotal(num)
                         User && num && db.collection("users").doc(User.uid).get().then((doc) => {
-                            db.collection("codes").doc(doc.data().code).get()
-                            .then((doc) => {
-                    
-                                if (doc.exists) {
-                                    setubTotalValue(num)
-                                setTotal(num - num*doc.data().value / 100)
-                                
-                                }else{
-                                    setTotal(num)
-                                }
-                            })
-                        
+                            if (doc.exists && doc.data().code) {
+                                db.collection("codes").doc(doc.data().code).get()
+                                .then((doc) => {
+                                    if (doc.exists) {
+                                        setubTotalValue(num)
+                                        setDiscount(num*doc.data().value / 100)
+                                    } else {
+                                        console.log("Code does not exist in the codes collection")
+                                        setubTotalValue(num)
+                                    }
+                                })
+                            } else {
+                                console.log("User does not have a code or it's undefined")
+                                setubTotalValue(num)
+                            }
                         })
 
                  },0)  
@@ -159,11 +162,12 @@ function Checkout() {
             ArdressTwo,
             Mobile
         }).catch((error) => { console.log(error.message); }).then(console.log("done"))
-           SubTotalValue != 0 ?  db.collection("users").doc(User.uid).collection("info").doc("orders").collection("ordersDetails").doc().set({
+           console.log(SubTotalValue);
+             db.collection("users").doc(User.uid).collection("info").doc("orders").collection("ordersDetails").doc().set({
                 subTotal : SubTotalValue,
-                discount : Total - SubTotalValue,
+                discount : Discount,
                 shipping : 30,                
-                total : Total + 30,
+                total : SubTotalValue - Discount + 30,
                 items,
                 id,
                 CreatedAt
@@ -178,31 +182,7 @@ function Checkout() {
                     }), 
                   history.push("./"+ id)
                 ).catch((error) => { console.log(error.message); }).then(window.location.reload())
-        ).catch((error) => { console.log(error.message); }) : 
-        db.collection("users").doc(User.uid).collection("info").doc("orders").collection("ordersDetails").doc().set({
-            subTotal : Total,
-            discount : 0,
-            shipping : 30,                
-            total : Total + 30,
-            items,
-            id,
-            CreatedAt
-    }).catch((error) => { console.log(error.message); }) .then(
-            db.collection("users").doc(User.uid).collection("basket").get().then(function(querySnapshot) {
-                querySnapshot.forEach(function(doc) {
-                    doc.ref.delete()
-                })
-                }, 
-                history.push("./"+ id)).then(window.location.reload())
-        ).catch((error) => { console.log(error.message); })
-    //     .then(
-        
-    //     emailjs.sendForm('service_vfb8sdj', 'contact_form', e.target, 'user_a0kajKqW2OgKvEfUtbcxw')
-    //   .then((result) => {
-    //       console.log(result.text);
-    //   }, (error) => {
-    //       console.log(error.text);
-    //   })).then(console.log("doneeeeeeeeeeeeee"))
+        ).catch((error) => { console.log(error.message); }) 
 
             }else{
                 setClass("validation")
@@ -313,7 +293,7 @@ function Checkout() {
             <div className="checkout__placeOrder">
                 {console.log(items)}
                 <div className="checkout__placeOrder__OrderDetails">
-                    <OrderDetails subTotal={Total} total={Total + 30} shipping={30} />
+                    <OrderDetails subTotal={SubTotalValue - Discount} total={SubTotalValue - Discount + 30} shipping={30} />
                  </div>
                  <div className=" checkout__placeOrder basket__button">
                     <Link onClick={handleSubmit}> Place Order</Link>
